@@ -1,0 +1,15 @@
+//colors
+$colors: ( "primary": #db9e3f, "white": #fff, "light": #f9f9f9, "light-1": #d4d9de, "black": #000, "grey": #999, "grey-1": #666, "dark": #222, "dark-1": #343434, "green": #999, "info": #048eda, );
+// font-size
+$base-font-size: 1rem;
+$font-sizes: ( xs: 0.7692, sm: 0.9231, md: 1, lg: 1.0769, xl: 1.2308, );
+$flex-jc: ( start: flex-start, end: flex-end, center: center, around: space-around, between: space-between, );
+// align-item:strecth  交叉轴上边等高
+$flex-ai: ( start: flex-start, end: flex-end, center: center, stretch: strecth, );
+// spacing
+//mt-1
+$spacing-types: ( m: margin, p: padding, );
+$spacing-directions: ( t: top, r: right, b: bottom, l: left, );
+$spacing-sizes: ( 0: 0, 1: 0.25, 2: 0.5, 3: 1, 4: 1.5, 5: 3, );
+$spacing-base-size: 1rem;
+$border-color: map-get($colors, "light-1");
