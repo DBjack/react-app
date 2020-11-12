@@ -10,11 +10,13 @@ router.get('/', function(req, res, next) {
 router.post('/register', function(req, res, next) {
     console.log(req.body, 'body')
     const { userName, password, rePassword, type } = req.body
-    UserName.findOne({ userName }, (err, user) => {
-        if (user) {
+    UserName.findOne({ userName }, (err, data) => {
+        console.log(err, '-------')
+        console.log(data, '-------')
+        if (data) {
             res.send({
                 code: 1001,
-                msg: '有相同账户'
+                msg: '存在相同账户',
             })
         } else {
             new UserName(req.body).save((err, user) => {

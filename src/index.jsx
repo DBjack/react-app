@@ -5,7 +5,7 @@ import React from 'react';
 import ReactDOM from 'react-dom'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import {Provider } from 'react-redux'
-import store from './redux/store.js'
+import {store} from './redux/store.js'
 
 import Register from './containers/register/register.jsx'
 import Login from './containers/login/login.jsx'

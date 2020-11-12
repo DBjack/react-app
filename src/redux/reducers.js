@@ -1,16 +1,28 @@
+import { AUTHSUCESS, ERRORMSG } from './action-types'
 import { combineReducers } from 'redux'
 
-
-function xxx(state = 0, action) {
-    return action
+let initState = {
+    userName: '',
+    password: '',
+    type: '',
+    msg: ''
 }
 
-function yyy(state = 0, action) {
-    return action
+function user(state = initState, action = {}) {
+    switch (action.type) {
+        case AUTHSUCESS:
+            debugger
+            return {...state, ...action.data }
+        case ERRORMSG:
+            return {...state, msg: action.data }
+        default:
+            return state;
+    }
+
 }
+
 
 
 export default combineReducers({
-    xxx,
-    yyy
+    user
 })
