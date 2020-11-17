@@ -1,6 +1,6 @@
 import { Toast } from 'antd-mobile'
 import { AUTHSUCESS, ERRORMSG } from './action-types'
-import { doRegister } from '../api/user'
+import { doRegister, doLogin } from '../api/user'
 
 function authSuccess(data) {
     debugger
@@ -23,20 +23,39 @@ export function register(user) {
     return async(dispatch) => {
 
         if (userName == '') {
-            return Toast.fail('请输入用户名')
+            return dispatch(errorMsg('请输入用户名'))
         } else if (password == '') {
-            return Toast.fail('请输入密码')
+            return dispatch(errorMsg('请输入密码'))
         } else if (rePassword == '') {
-            return Toast.fail('请输入重复密码')
+            return dispatch(errorMsg('请输入重复密码'))
         } else if (type == '') {
-            return Toast.fail('请选择类型')
+            return dispatch(errorMsg('请选择类型'))
         }
 
         if (password !== rePassword) {
-            return Toast.fail('两次密码不一致', 2)
+            return dispatch(errorMsg('两次密码不一致'))
         }
 
         const { data, code, msg } = await doRegister(user)
+        debugger
+        if (code === 1000) {
+            dispatch(authSuccess(data))
+        } else {
+            dispatch(errorMsg(msg))
+        }
+    }
+}
+// 登录
+export function login(user) {
+    const { password, userName } = user
+    return async(dispatch) => {
+
+        if (userName == '') {
+            return dispatch(errorMsg('请输入用户名'))
+        } else if (password == '') {
+            return dispatch(errorMsg('请输入密码'))
+        }
+        const { data, code, msg } = await doLogin(user)
         debugger
         if (code === 1000) {
             dispatch(authSuccess(data))

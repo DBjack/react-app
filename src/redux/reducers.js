@@ -1,5 +1,6 @@
 import { AUTHSUCESS, ERRORMSG } from './action-types'
 import { combineReducers } from 'redux'
+import { getRedirectTo } from '../utils/index.js'
 
 let initState = {
     userName: '',
@@ -12,7 +13,7 @@ function user(state = initState, action = {}) {
     switch (action.type) {
         case AUTHSUCESS:
             debugger
-            return {...state, ...action.data }
+            return {...action.data, redirectTo: getRedirectTo(action.type) }
         case ERRORMSG:
             return {...state, msg: action.data }
         default:

@@ -3,6 +3,7 @@ import { NavBar, Button, List, InputItem, WhiteSpace,Radio,WingBlank,Toast } fro
 import {connect } from 'react-redux'
 import { register } from '../../redux/action'
 import Logo from '../../components/logo/logo.jsx'
+import { Redirect } from 'react-router-dom';
 
 class Register extends Component {
     constructor(props) {
@@ -51,8 +52,12 @@ class Register extends Component {
       }
 
     render() {
-        const { msg }  = this.props.user
-        console.log(this.props)
+        const { msg,redirectTo }  = this.props.user
+
+        if(redirectTo){
+            return <Redirect to={redirectTo}></Redirect>
+        }
+        
         return ( 
             <div>
                 <NavBar>注册</NavBar>
