@@ -1,9 +1,8 @@
 import { Toast } from 'antd-mobile'
 import { AUTHSUCESS, ERRORMSG } from './action-types'
-import { doRegister, doLogin } from '../api/user'
+import { doRegister, doLogin, updateInfo } from '../api/user'
 
 function authSuccess(data) {
-    debugger
     return {
         type: AUTHSUCESS,
         data
@@ -47,6 +46,7 @@ export function register(user) {
 }
 // 登录
 export function login(user) {
+
     const { password, userName } = user
     return async(dispatch) => {
 
@@ -56,7 +56,29 @@ export function login(user) {
             return dispatch(errorMsg('请输入密码'))
         }
         const { data, code, msg } = await doLogin(user)
-        debugger
+        if (code === 1000) {
+            dispatch(authSuccess(data))
+        } else {
+            dispatch(errorMsg(msg))
+        }
+    }
+}
+// 更新
+export function update(user) {
+
+    const { name, job, worktime, intruduction } = user
+    return async(dispatch) => {
+
+        if (name == '') {
+            return dispatch(errorMsg('请输入名称'))
+        } else if (job == '') {
+            return dispatch(errorMsg('请输入求职工作'))
+        } else if (worktime == '') {
+            return dispatch(errorMsg('请输入工作年限'))
+        } else if (intruduction == '') {
+            return dispatch(errorMsg('请输入个人介绍'))
+        }
+        const { data, code, msg } = await updateInfo(user)
         if (code === 1000) {
             dispatch(authSuccess(data))
         } else {

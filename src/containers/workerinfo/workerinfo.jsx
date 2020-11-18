@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import {NavBar,WhiteSpace,InputItem,Button,List } from 'antd-mobile'
+import {connect } from 'react-redux'
+import { update} from '../../redux/action'
 import HeaderAvatar from '../../components/header-avatar/header-avatar'
 import './index.scss'
 
@@ -32,6 +34,7 @@ console.log(this.state)
     // 保存
     clickSave=()=>{
         console.log(this.state,111)
+        this.props.update(this.state)
     }
     render() { 
         const {header} =  this.state
@@ -69,4 +72,9 @@ console.log(this.state)
     }
 }
  
-export default WorkerInfo;
+export default connect(
+    state=>({user:state.user}),
+    {
+        update
+    }
+)(WorkerInfo);

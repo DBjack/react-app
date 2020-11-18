@@ -13,7 +13,8 @@ class Register extends Component {
             password:'',
             rePassword:'',
             type:'',
-            userError:false
+            userError:false,
+            isRegister:false
          }
     }
 
@@ -24,7 +25,7 @@ class Register extends Component {
 
         if(type==='userName'){
 
-            if(val.length<11){
+            if(val.length<6){
                 this.setState({
                     userError:true
                 })
@@ -38,6 +39,9 @@ class Register extends Component {
     }
 
     register=()=>{
+        this.setState({
+            isRegister:true
+        })
         this.props.register(this.state)
     }
 
@@ -47,24 +51,29 @@ class Register extends Component {
 
     onErrorClick = () => {
         if (this.state.userError) {
-          Toast.info('用户名不得小于11位数');
+          Toast.info('用户名不得小于6位数');
         }
       }
 
     render() {
+        const {isRegister} = this.state
+
         const { msg,redirectTo }  = this.props.user
 
         if(redirectTo){
             return <Redirect to={redirectTo}></Redirect>
+        }
+        if(msg && isRegister){
+            Toast.info(msg)
+            this.setState({
+                isRegister:false
+            })
         }
         
         return ( 
             <div>
                 <NavBar>注册</NavBar>
                 <Logo></Logo>
-                    {
-                        msg ? <div>{msg}</div> : null
-                    }
                 <WingBlank>
                 <List>
                     <InputItem   placeholder="请输入用户名" error={this.state.userError} onErrorClick={this.onErrorClick} onChange={val=>this.handleChange('userName',val)}>用户名</InputItem>

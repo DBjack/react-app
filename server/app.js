@@ -3,15 +3,18 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+var cors = require('cors')
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var app = express();
 
+
 //设置允许跨域访问该服务.
-app.all('*', function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
+app.all('http://192.168.31.48:3000', function(req, res, next) {
+    // res.header('Access-Control-Allow-Origin', 'http://192.168.31.48:3000');
+    // res.header('Access-Control-Allow-Credentials', 'true');
+
     //Access-Control-Allow-Headers ,可根据浏览器的F12查看,把对应的粘贴在这里就行
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     res.header('Access-Control-Allow-Methods', '*');
@@ -24,6 +27,7 @@ require('./db/db.js')(app)
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+app.use(cors({ origin: 'http://192.168.31.48:3000', credentials: true, methods: 'GET,PUT,POST,OPTIONS', allowedHeaders: 'Content-Type,Authorization' }))
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

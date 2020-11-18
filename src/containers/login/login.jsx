@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { NavBar, Button, List, InputItem, WhiteSpace,Radio,WingBlank } from 'antd-mobile'
-
+import { NavBar, Button, List, InputItem, WhiteSpace,Radio,WingBlank, Toast } from 'antd-mobile'
+import { connect} from 'react-redux'
+import {login } from '../../redux/action'
 import Logo from '../../components/logo/logo.jsx'
+import { Redirect } from 'react-router-dom';
 
 class Register extends Component {
     constructor(props) {
@@ -9,24 +11,40 @@ class Register extends Component {
         this.state = { 
             userName:'',
             password:'',
+            isLogin:false
          }
     }
 
     handleChange=(type,val)=>{
         this.setState({
-            ['type']:val
+        [type]:val
         })
     }
 
     login=()=>{
-
+        this.setState({
+            isLogin:true
+        })
+        this.props.login(this.state)
     }
 
     toRegister=()=>{
         this.props.history.push('/register')
     }
 
-    render() { 
+    render() {
+        const {isLogin} = this.state
+        const {redirectTo,msg }  = this.props.user
+        console.log(msg,111)
+        if(redirectTo){
+            return <Redirect to={redirectTo}></Redirect>
+        }
+        if(msg && isLogin){
+            Toast.info(msg)
+            this.setState({
+                isLogin:false
+            })
+        }
         return ( 
             <div>
                 <NavBar>注册</NavBar>
@@ -47,4 +65,7 @@ class Register extends Component {
     }
 }
  
-export default Register;
+export default connect(
+    state=>({user:state.user}),
+    {login}
+)(Register);

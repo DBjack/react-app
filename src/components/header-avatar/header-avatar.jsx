@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {Grid } from 'antd-mobile'
 
 let avatarList =  Array.from(new Array(20)).map((item,i)=>({
-    icon: `../../assets/img/头像${i+1}.png`,
+    icon: require(`../../assets/img/头像${i+1}.png`),
     text : `头像${i+1}`
 }))
 
