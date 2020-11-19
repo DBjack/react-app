@@ -59,17 +59,19 @@ class Main extends Component {
     }
     render() { 
         const { navList} = this
-        console.log(this,11)
+        const { pathname} = this.props.history.location
+        // 如果是主界面路由显示头部和底部
+        const mainPath =navList.find(nav=>nav.path==pathname)
         return ( 
             <div>
-                <NavBar>主页</NavBar>
+                {mainPath ? <NavBar>主页</NavBar> : null}
                 <Switch>
                     <Route path='/bossinfo' component={BossInfo}></Route>
                     <Route path='/workerinfo' component={WorkerInfo}></Route>
                     <Route path='/home' component={Home}></Route>
                 </Switch>
-                <FooterBar navList={navList}></FooterBar>
-            </div>
+                {mainPath ? <FooterBar  navList={navList} ></FooterBar> : null}
+                </div>
          );
     }
 }

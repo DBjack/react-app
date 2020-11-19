@@ -14,13 +14,17 @@ import Main from './containers/main/main.jsx'
 import ('./assets/css/global.scss')
 ReactDOM.render(
     <Provider store={store}>
+
         <Router>
+            
             <Switch>
                 <Route path='/' exact component={Login}></Route>
                 <Route path='/register' component={Register}></Route>
                 <Route path='/login' component={Login}></Route>
                 <Route component={Main}></Route>
             </Switch>
+        
         </Router>
+
     </Provider>
 ,document.getElementById('root'))

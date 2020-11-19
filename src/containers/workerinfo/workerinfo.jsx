@@ -29,10 +29,10 @@ class WorkerInfo extends Component {
     }
     // 选择头像
  selectAvatar=(avatar,i)=>{
+     console.log(avatar,i,11122)
     this.setState({
         header:avatar
     })
-console.log(this.state)
 }  
     // 保存
     clickSave=()=>{

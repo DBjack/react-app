@@ -29,6 +29,7 @@ class BossInfo extends Component {
     }
     // 选择头像
  selectAvatar=(avatar,i)=>{
+    console.log(avatar,i,11122)
     this.setState({
         header:avatar
     })
@@ -51,7 +52,7 @@ console.log(this.state)
         if(header.text){
             avatar = <div>
                <span>已选择头像</span>
-               <img src={header.avatar} alt="头像"/>
+               <img src={header.icon} alt="头像"/>
            </div>
         }
         if(isSave && msg){

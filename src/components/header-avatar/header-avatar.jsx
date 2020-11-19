@@ -13,13 +13,12 @@ class HeaderAvatar extends Component {
         this.avatarList =[]
         for (var i = 0; i < 20; i++) { 
             const text = `头像${i+1}`
-            this.avatarList.push({text, icon: require(`../../assets/img/${text}.png`)}) 
+            this.avatarList.push({text, icon: require(`../../assets/img/${text}.png`).default   }) 
         }
         console.log(this.avatarList) 
         this.state = {  }
     }
     render() { 
-        console.log(this.avatarList[0].icon)
         return (  
             <Grid data={this.avatarList} columnNum={5} onClick={this.props.selectAvatar}></Grid>
         );
