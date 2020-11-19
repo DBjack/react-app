@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
-import {NavBar,WhiteSpace,InputItem,Button,List } from 'antd-mobile'
+import {NavBar,WhiteSpace,InputItem,Button,List,Toast } from 'antd-mobile'
+import { BrowserRouter as Router, Route, NavLink ,Redirect} from 'react-router-dom'
+
+import {connect } from 'react-redux'
+import { update} from '../../redux/action'
 import HeaderAvatar from '../../components/header-avatar/header-avatar'
 import './index.scss'
 
@@ -12,7 +16,8 @@ class BossInfo extends Component {
             name:'',
             company:'',
             job:'',
-            header:{}
+            header:{},
+            isSave:false
          }
     }
 
@@ -32,9 +37,14 @@ console.log(this.state)
     // 保存
     clickSave=()=>{
         console.log(this.state,111)
+        this.props.update(this.state)
+        this.setState({
+            isSave:true
+        })
     }
     render() { 
-        const {header} =  this.state
+        const {header,isSave} =  this.state
+        const {redirectTo,msg} = this.props.user
 
         let avatar 
         
@@ -43,6 +53,17 @@ console.log(this.state)
                <span>已选择头像</span>
                <img src={header.avatar} alt="头像"/>
            </div>
+        }
+        if(isSave && msg){
+            Toast.info(msg)
+        }
+
+
+        if(isSave && redirectTo){
+            this.setState({
+                isSave:false
+            })
+            return <Redirect to={redirectTo}></Redirect>
         }
         return ( 
             <div className='main'>
@@ -67,4 +88,9 @@ console.log(this.state)
     }
 }
  
-export default BossInfo;
+export default connect(
+    state=>({user:state.user}),
+    {
+        update
+    }
+)(BossInfo);

@@ -10,7 +10,6 @@ router.get('/', function(req, res, next) {
 
 // 注册
 router.post('/register', function(req, res, next) {
-        console.log(req.body, 'body')
         const { userName, password, type } = req.body
         UserName.findOne({ userName }, (err, data) => {
             if (data) {
@@ -20,15 +19,23 @@ router.post('/register', function(req, res, next) {
                 })
             } else {
                 req.body.password = md5(password)
-                new UserName(req.body).save((err, user) => {
-                    res.cookie('userid', user._id, {
-                        maxAge: 24 * 60 * 60 * 1000
-                    })
-                    res.send({
-                        code: 1000,
-                        data: user,
-                        msg: '注册成功'
-                    })
+                UserName(req.body).save((err, user) => {
+                    if (err) {
+                        res.send({
+                            code: 1001,
+                            msg: err
+                        })
+                    } else {
+                        console.log(user, 111)
+                        res.cookie('userid', user._id, {
+                            maxAge: 24 * 60 * 60 * 1000
+                        })
+                        res.send({
+                            code: 1000,
+                            data: user,
+                            msg: '注册成功'
+                        })
+                    }
                 })
             }
         })
@@ -65,12 +72,17 @@ router.post('/login', function(req, res, next) {
     })
     // 更新
 router.post('/update', function(req, res, next) {
-    console.log(res.cookies)
-    const { userid } = res.cookies
-    UserName.findByIdAndUpdate({ id: userid }, req.body, (err, user) => {
-        console.log(user, err);
-        if (user) {
 
+    const { userid } = req.cookies
+    UserName.findByIdAndUpdate({ _id: userid }, req.body, (err, user) => {
+
+        if (user) {
+            const newUser = Object.assign(user, req.body)
+            res.send({
+                code: 1000,
+                data: newUser,
+                msg: '保存成功'
+            })
         } else {
             res.send({
                 code: 1001,

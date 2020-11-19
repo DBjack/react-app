@@ -4,7 +4,7 @@ let instance = axios.create({
     baseURL: 'http://localhost:4000',
     timeout: 60 * 60 * 1000,
     // 跨域请求时是否在http请求中携带cookie
-    // withCredentials: true
+    withCredentials: true
 })
 
 

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import {NavBar,WhiteSpace,InputItem,Button,List } from 'antd-mobile'
+import {NavBar,WhiteSpace,InputItem,Button,List, Toast } from 'antd-mobile'
+import { BrowserRouter as Router, Route, NavLink ,Redirect} from 'react-router-dom'
+
 import {connect } from 'react-redux'
 import { update} from '../../redux/action'
 import HeaderAvatar from '../../components/header-avatar/header-avatar'
@@ -14,7 +16,8 @@ class WorkerInfo extends Component {
             name:'',
             company:'',
             job:'',
-            header:{}
+            header:{},
+            isSave:false
          }
     }
 
@@ -35,9 +38,13 @@ console.log(this.state)
     clickSave=()=>{
         console.log(this.state,111)
         this.props.update(this.state)
+        this.setState({
+            isSave:true
+        })
     }
     render() { 
-        const {header} =  this.state
+        const {header,isSave} =  this.state
+        const {redirectTo,msg} = this.props.user
 
         let avatar 
         
@@ -47,13 +54,28 @@ console.log(this.state)
                <img src={header.avatar} alt="头像"/>
            </div>
         }
+        if(isSave && msg){
+            Toast.info(msg)
+        }
+
+
+        if(isSave && redirectTo){
+            this.setState({
+                isSave:false
+            })
+            return <Redirect to={redirectTo}></Redirect>
+        }
+
+
+        
+
         return ( 
-            <div className='main'>
-                
+            <div className='main'>                
+
                     <NavBar>招聘人员信息</NavBar>
                     <HeaderAvatar selectAvatar={this.selectAvatar}></HeaderAvatar>
                     <List className='list-input'>
-                        <List.Item>
+                        <List.Item >
                     {avatar}
                         </List.Item>
                     <InputItem placeholder='请输入姓名' onChange={val=>this.handleChange('name',val)}>姓名</InputItem>
@@ -62,7 +84,7 @@ console.log(this.state)
                     <WhiteSpace></WhiteSpace>
                     <InputItem  placeholder='请输入工作年限' onChange={val=>this.handleChange('worktime',val)}>工作年限</InputItem>
                     <WhiteSpace></WhiteSpace>
-                    <InputItem  placeholder='请输入个人介绍' onChange={val=>this.handleChange('intruduction',val)}>个人介绍</InputItem>
+                    <InputItem  placeholder='请输入个人介绍' onChange={val=>this.handleChange('introduction',val)}>个人介绍</InputItem>
                     <WhiteSpace></WhiteSpace>
                     <Button type='primary' onClick={this.clickSave}>保存</Button>
                     </List>

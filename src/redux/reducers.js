@@ -13,7 +13,7 @@ function user(state = initState, action = {}) {
     switch (action.type) {
         case AUTHSUCESS:
             debugger
-            return {...action.data, redirectTo: getRedirectTo(action.type) }
+            return {...action.data, redirectTo: getRedirectTo(action.data.type, action.data.header) }
         case ERRORMSG:
             return {...state, msg: action.data }
         default:

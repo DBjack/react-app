@@ -59,15 +59,15 @@ class Register extends Component {
         const {isRegister} = this.state
 
         const { msg,redirectTo }  = this.props.user
-
+        
         if(redirectTo){
             return <Redirect to={redirectTo}></Redirect>
         }
         if(msg && isRegister){
-            Toast.info(msg)
             this.setState({
                 isRegister:false
             })
+             Toast.info(msg)
         }
         
         return ( 

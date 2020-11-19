@@ -10,29 +10,37 @@ var usersRouter = require('./routes/users');
 var app = express();
 
 
-//设置允许跨域访问该服务.
-app.all('http://192.168.31.48:3000', function(req, res, next) {
-    // res.header('Access-Control-Allow-Origin', 'http://192.168.31.48:3000');
-    // res.header('Access-Control-Allow-Credentials', 'true');
 
-    //Access-Control-Allow-Headers ,可根据浏览器的F12查看,把对应的粘贴在这里就行
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
-    res.header('Access-Control-Allow-Methods', '*');
-    res.header('Content-Type', 'application/json;charset=utf-8');
-    next();
-});
 
 require('./db/db.js')(app)
     // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-app.use(cors({ origin: 'http://192.168.31.48:3000', credentials: true, methods: 'GET,PUT,POST,OPTIONS', allowedHeaders: 'Content-Type,Authorization' }))
+// app.use(cors({ origin: 'http://localhost:3000/', credentials: true, methods: 'GET,PUT,POST,OPTIONS', allowedHeaders: 'Content-Type,Authorization' }))
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+//设置允许跨域访问该服务.
+//设置跨域访问
+app.all("*", function(req, res, next) {
+    //设置允许跨域的域名，*代表允许任意域名跨域
+    res.header("Access-Control-Allow-Origin", req.headers.origin || '*');
+    // //允许的header类型
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
+    // //跨域允许的请求方式 
+    res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
+    // 可以带cookies
+    res.header("Access-Control-Allow-Credentials", true);
+    if (req.method == 'OPTIONS') {
+        res.sendStatus(200);
+    } else {
+        next();
+    }
+})
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
