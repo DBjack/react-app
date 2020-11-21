@@ -73,20 +73,40 @@ router.post('/login', function(req, res, next) {
     // 更新
 router.post('/update', function(req, res, next) {
 
+        const { userid } = req.cookies
+        UserName.findByIdAndUpdate({ _id: userid }, req.body, (err, user) => {
+
+            if (user) {
+                const newUser = Object.assign(user, req.body)
+                res.send({
+                    code: 1000,
+                    data: newUser,
+                    msg: '保存成功'
+                })
+            } else {
+                res.send({
+                    code: 1001,
+                    msg: '账号不存在'
+                })
+            }
+        })
+    })
+    // 查找
+router.get('/getUser', function(req, res, next) {
+
     const { userid } = req.cookies
-    UserName.findByIdAndUpdate({ _id: userid }, req.body, (err, user) => {
+    UserName.findOne({ _id: userid }, req.body, (err, user) => {
 
         if (user) {
-            const newUser = Object.assign(user, req.body)
             res.send({
                 code: 1000,
-                data: newUser,
-                msg: '保存成功'
+                data: user,
+                msg: '查找成功'
             })
         } else {
             res.send({
                 code: 1001,
-                msg: '账号不存在'
+                msg: err
             })
         }
     })

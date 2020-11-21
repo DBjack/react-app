@@ -1,4 +1,4 @@
-import { AUTHSUCESS, ERRORMSG } from './action-types'
+import { AUTHSUCESS, ERRORMSG, RECEIVEUSER, RESETUSER } from './action-types'
 import { combineReducers } from 'redux'
 import { getRedirectTo } from '../utils/index.js'
 
@@ -12,9 +12,12 @@ let initState = {
 function user(state = initState, action = {}) {
     switch (action.type) {
         case AUTHSUCESS:
-            debugger
             return {...action.data, redirectTo: getRedirectTo(action.data.type, action.data.header) }
         case ERRORMSG:
+            return {...state, msg: action.data }
+        case RECEIVEUSER:
+            return {...action.data, redirectTo: getRedirectTo(action.data.type, action.data.header) }
+        case RESETUSER:
             return {...state, msg: action.data }
         default:
             return state;

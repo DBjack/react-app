@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import {TabBar  } from 'antd-mobile'
+import { BrowserRouter as Router, Route, withRouter } from 'react-router-dom'
+
 import PropTypes from 'prop-types'
 import ('./index.scss')
 class FooterBar extends Component {
@@ -12,13 +14,15 @@ class FooterBar extends Component {
     }
     render() { 
         console.log(this)
+        const {pathname } = this.props.history.location
         const {navList } = this.props
         return ( 
             <TabBar className='footer-bar'>
                 {
-                    navList.map(item=>{
-                        return <TabBar.Item title={item.title} key={item.path} icon={{uri:require(`../../assets/img/nav/${item.icon}.png`).default}} selectedIcon={{uri:require(`../../assets/img/nav/${item.icon}-selected.png`).default}}
-                        ></TabBar.Item>
+                    navList.map(nav=>{
+                        return <TabBar.Item title={nav.title} key={nav.path} icon={{uri:require(`../../assets/img/nav/${nav.icon}.png`).default}} selectedIcon={{uri:require(`../../assets/img/nav/${nav.icon}-selected.png`).default}}
+                        selectedIcon={{uri:require(`../../assets/img/nav/${nav.icon}-selected.png`).default}} selectedIcon={{uri:require(`../../assets/img/nav/${nav.icon}-selected.png`).default}}
+                        selected={pathname===nav.path} onPress={()=>this.props.history.replace(nav.path)}></TabBar.Item>
                     })
                 }
             </TabBar>
@@ -26,4 +30,4 @@ class FooterBar extends Component {
     }
 }
  
-export default FooterBar;
+export default withRouter(FooterBar);

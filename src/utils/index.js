@@ -1,7 +1,11 @@
 export function getRedirectTo(type, header) {
     let redirectTo
     if (header) {
-        redirectTo = '/home'
+        if (type === 'boss') {
+            redirectTo = '/laoban'
+        } else {
+            redirectTo = '/dashen'
+        }
     } else {
         if (type === 'boss') {
             redirectTo = '/bossinfo'

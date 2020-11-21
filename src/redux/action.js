@@ -1,6 +1,6 @@
 import { Toast } from 'antd-mobile'
-import { AUTHSUCESS, ERRORMSG } from './action-types'
-import { doRegister, doLogin, updateInfo } from '../api/user'
+import { AUTHSUCESS, ERRORMSG, RECEIVEUSER, RESETUSER } from './action-types'
+import { doRegister, doLogin, updateInfo, getUser } from '../api/user'
 
 function authSuccess(data) {
     return {
@@ -15,6 +15,22 @@ function errorMsg(data) {
         data
     }
 }
+
+
+function receiveUser(data) {
+    return {
+        type: RECEIVEUSER,
+        data
+    }
+}
+
+function resetUser(data) {
+    return {
+        type: RESETUSER,
+        data
+    }
+}
+
 
 // 注册
 export function register(user) {
@@ -80,9 +96,20 @@ export function update(user) {
         }
         const { data, code, msg } = await updateInfo(user)
         if (code === 1000) {
-            dispatch(authSuccess(data))
+            dispatch(receiveUser(data))
         } else {
-            dispatch(errorMsg(msg))
+            dispatch(resetUser(msg))
+        }
+    }
+}
+// 查找
+export function getUserInfo() {
+
+    return async(dispatch) => {
+
+        const { data, code, msg } = await getUser()
+        if (code === 1000) {
+            dispatch(receiveUser(data))
         }
     }
 }

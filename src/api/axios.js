@@ -24,7 +24,7 @@ function ajax({ type = 'get', url = '', data = {} }) {
             str += '&' + key + '=' + data[key]
         })
         if (str != '') {
-            str.replace(/\&{1}/, str)
+            str = str.replace(/&{1}/, str)
         }
         return instance({
             method: type,

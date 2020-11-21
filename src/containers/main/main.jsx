@@ -4,11 +4,16 @@ import {NavBar } from 'antd-mobile'
 import  Cookies from 'js-cookie'
 import { connect } from 'react-redux'
 import { getRedirectTo } from '../../utils';
+import {getUserInfo } from '../../redux/action'
 
 import BossInfo from '../bossinfo/bossinfo'
 import WorkerInfo from '../workerinfo/workerinfo'
-import Home from '../home/home'
+import Laoban from '../laoban/laoban'
+import Dashen from '../dashen/dashen'
+import Message from '../message/message'
+import Personal from '../personal/personal'
 import FooterBar from '../../components/footerBar/FooterBar'
+
 
 
 class Main extends Component {
@@ -21,12 +26,12 @@ class Main extends Component {
         {
             title:'老板',
             icon:'laoban',
-            path:'/'
+            path:'/laoban'
         },
         {
             title:'大神',
             icon:'dashen',
-            path:'/home'
+            path:'/dashen'
         },
         {
             title:'信息',
@@ -40,26 +45,36 @@ class Main extends Component {
         },
     ]
     componentDidMount(){
+        const userid = Cookies.get('userid')
+        const { user } = this.props
+        
+        if(userid && !user.id){
+            this.props.getUserInfo()
+        }
+    }
+    render() {
+        const { navList} = this
+        const { pathname} = this.props.history.location
+        
+        const {user } = this.props
         const _id = Cookies.get('userid')
-        const {userid,type,header} = this.props.user
 
         // 如果_id不存在，直接跳转到登录页
         if(!_id){
             return <Redirect to='/login'></Redirect>
         }else{
             // 如果_id存在，useid不存在，说明没有操作登录，但是之前登陆过
-            if(userid){
-                const redirectTo = getRedirectTo(type,header)
-                return <Redirect to={redirectTo}></Redirect>
-            }else {
+            if(!user._id){
                 return null
+            }else {
+                if(pathname === '/'){
+                    const redirectTo = getRedirectTo(user.type,user.header)
+                    return <Redirect to={redirectTo}></Redirect>
+                }
             }
         }
 
-    }
-    render() { 
-        const { navList} = this
-        const { pathname} = this.props.history.location
+
         // 如果是主界面路由显示头部和底部
         const mainPath =navList.find(nav=>nav.path==pathname)
         return ( 
@@ -68,7 +83,10 @@ class Main extends Component {
                 <Switch>
                     <Route path='/bossinfo' component={BossInfo}></Route>
                     <Route path='/workerinfo' component={WorkerInfo}></Route>
-                    <Route path='/home' component={Home}></Route>
+                    <Route path='/laoban' component={Laoban}></Route>
+                    <Route path='/dashen' component={Dashen}></Route>
+                    <Route path='/message' component={Message}></Route>
+                    <Route path='/personal'  component={Personal}></Route>
                 </Switch>
                 {mainPath ? <FooterBar  navList={navList} ></FooterBar> : null}
                 </div>
@@ -77,5 +95,8 @@ class Main extends Component {
 }
  
 export default connect(
-    state=>({user:state.user})
+    state=>({user:state.user}),
+    {
+        getUserInfo
+    }
 )(Main);

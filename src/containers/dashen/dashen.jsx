@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-class Home extends Component {
+class Dashen extends Component {
     constructor(props) {
         super(props);
         this.state = {  }
     }
     render() { 
-        return (  
-            <div>home</div>
-        );
+        return ( 
+            <div>dashen</div>
+         );
     }
 }
  
-export default Home;
+export default Dashen
