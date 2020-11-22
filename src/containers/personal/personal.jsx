@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import { List,Result,Button,WhiteSpace } from 'antd-mobile'
+import { List,Result,Button,WhiteSpace,Modal } from 'antd-mobile'
 import { connect } from 'react-redux'
+import  Cookies from 'js-cookie'
+import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom'
+
 const { Item} = List
 const {Brief} = Item
 
@@ -9,6 +12,26 @@ class Personal extends Component {
         super(props);
         this.state = {  }
     }
+
+// 退出
+    logout=()=>{
+        Modal.alert('退出','是否退出当前账号？',[
+            {
+                text:'取消',
+                onPress:()=>{
+                    console.log('取消')
+                }
+            },
+            {
+                text: '确认',
+                onPress:()=>{
+                    Cookies.remove('userid')
+                    this.props.history.replace('/login')
+                }
+            }
+        ])
+    }
+
     render() { 
         const {user } = this.props
         return ( 
@@ -16,7 +39,7 @@ class Personal extends Component {
                 <Result 
                     title={user.userName}
                     message={user.job}  
-                    img={<img src={user.header.icon.default}></img>}>
+                    img={<img src={user.header.icon}></img>}>
                 </Result>
                 <WhiteSpace></WhiteSpace>
                 <List>
@@ -25,6 +48,10 @@ class Personal extends Component {
                         <Brief>公司：{user.company}</Brief>
                         <Brief>职位：{user.job}</Brief>
                     </Item>
+                </List>
+                <WhiteSpace></WhiteSpace>
+                <List>
+                <Button type='warning' onClick={this.logout}>退出登录</Button>
                 </List>
             </div>
          );

@@ -1,4 +1,8 @@
-.am-tabs {
-    position: fixed;
-    bottom: 0;
+.am-tab-bar {
+    height: inherit!important;
+    .am-tabs {
+        position: fixed;
+        bottom: 0;
+        height: inherit!important;
+    }
 }
