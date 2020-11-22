@@ -17,12 +17,12 @@ function user(state = initState, action = {}) {
             return {...state, msg: action.data }
         case RECEIVEUSER:
             return {...action.data, redirectTo: getRedirectTo(action.data.type, action.data.header) }
+            // 重组redux中user中的状态
         case RESETUSER:
-            return {...state, msg: action.data }
+            return {...initState }
         default:
             return state;
     }
-
 }
 
 

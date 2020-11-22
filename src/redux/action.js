@@ -24,7 +24,7 @@ function receiveUser(data) {
     }
 }
 
-function resetUser(data) {
+export function resetUser(data) {
     return {
         type: RESETUSER,
         data

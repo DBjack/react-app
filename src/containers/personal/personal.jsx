@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { List,Result,Button,WhiteSpace,Modal } from 'antd-mobile'
 import { connect } from 'react-redux'
 import  Cookies from 'js-cookie'
-import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom'
+import { resetUser } from '../../redux/action'
+
 
 const { Item} = List
 const {Brief} = Item
@@ -26,7 +27,7 @@ class Personal extends Component {
                 text: '确认',
                 onPress:()=>{
                     Cookies.remove('userid')
-                    this.props.history.replace('/login')
+                    this.props.resetUser()
                 }
             }
         ])
@@ -59,5 +60,8 @@ class Personal extends Component {
 }
  
 export default connect(
-    state=>({user:state.user})
+    state=>({user:state.user}),
+    {
+        resetUser
+    }
 )(Personal)

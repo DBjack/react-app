@@ -14,7 +14,8 @@
     "http-errors": "~1.6.3",
     "md5": "^2.3.0",
     "mongoose": "^5.10.13",
-    "morgan": "~1.9.1"
+    "morgan": "~1.9.1",
+    "socket.io": "^3.0.3"
   },
   "devDependencies": {
     "http-assert": "^1.4.1",
