@@ -1,4 +1,4 @@
-import { AUTHSUCESS, ERRORMSG, RECEIVEUSER, RESETUSER } from './action-types'
+import { AUTHSUCESS, ERRORMSG, RECEIVEUSER, RESETUSER, RECEIVEWORK } from './action-types'
 import { combineReducers } from 'redux'
 import { getRedirectTo } from '../utils/index.js'
 
@@ -26,7 +26,18 @@ function user(state = initState, action = {}) {
 }
 
 
+function workList(state = [], action = []) {
+    switch (action.type) {
+        case RECEIVEWORK:
+            return action.data
+        default:
+            return state
+    }
+}
+
+
 
 export default combineReducers({
-    user
+    user,
+    workList
 })

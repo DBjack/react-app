@@ -4,7 +4,7 @@ import {NavBar } from 'antd-mobile'
 import  Cookies from 'js-cookie'
 import { connect } from 'react-redux'
 import { getRedirectTo } from '../../utils';
-import {getUserInfo } from '../../redux/action'
+import {getUserInfo,getWorkInfo } from '../../redux/action'
 
 import BossInfo from '../bossinfo/bossinfo'
 import WorkerInfo from '../workerinfo/workerinfo'
@@ -12,6 +12,8 @@ import Laoban from '../laoban/laoban'
 import Dashen from '../dashen/dashen'
 import Message from '../message/message'
 import Personal from '../personal/personal'
+import Detail from '../detail/detail'
+import Chat from '../chat/chat'
 import FooterBar from '../../components/footerBar/FooterBar'
 
 
@@ -51,6 +53,7 @@ class Main extends Component {
         if(userid && !user.id){
             this.props.getUserInfo()
         }
+        this.props.getWorkInfo()
     }
     render() {
         const { navList} = this
@@ -87,6 +90,8 @@ class Main extends Component {
                     <Route path='/dashen' component={Dashen}></Route>
                     <Route path='/message' component={Message}></Route>
                     <Route path='/personal'  component={Personal}></Route>
+                    <Route path='/detail/:userid'  component={Detail}></Route>
+                    <Route path='/chat/:userid'  component={Chat}></Route>
                 </Switch>
                 {mainPath ? <FooterBar  navList={navList} ></FooterBar> : null}
                 </div>
@@ -97,6 +102,7 @@ class Main extends Component {
 export default connect(
     state=>({user:state.user}),
     {
-        getUserInfo
+        getUserInfo,
+        getWorkInfo
     }
 )(Main);

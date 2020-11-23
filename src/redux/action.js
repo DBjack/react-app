@@ -1,6 +1,7 @@
 import { Toast } from 'antd-mobile'
-import { AUTHSUCESS, ERRORMSG, RECEIVEUSER, RESETUSER } from './action-types'
+import { AUTHSUCESS, ERRORMSG, RECEIVEUSER, RESETUSER, RECEIVEWORK } from './action-types'
 import { doRegister, doLogin, updateInfo, getUser } from '../api/user'
+import { getWork } from '../api/work'
 
 function authSuccess(data) {
     return {
@@ -27,6 +28,14 @@ function receiveUser(data) {
 export function resetUser(data) {
     return {
         type: RESETUSER,
+        data
+    }
+}
+
+export function receiveWork(data) {
+
+    return {
+        type: RECEIVEWORK,
         data
     }
 }
@@ -110,6 +119,16 @@ export function getUserInfo() {
         const { data, code, msg } = await getUser()
         if (code === 1000) {
             dispatch(receiveUser(data))
+        }
+    }
+}
+// 查找工作列表
+export function getWorkInfo() {
+    return async(dispatch) => {
+        const { data, code, msg } = await getWork()
+        if (code === 1000) {
+            console.log(data, 123456)
+            dispatch(receiveWork(data))
         }
     }
 }
