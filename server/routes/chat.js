@@ -1,5 +1,5 @@
 const express = require('express')
-const { use } = require('.')
+const Cookies = require('js-cookie')
 const router = express.Router()
 
 const ChatModel = require('../models/chat')
@@ -8,20 +8,21 @@ const UserModel = require('../models/user')
 
 // 查找聊天记录
 router.get('/chatList', function(req, res, next) {
-    const userid = Cookies.get('userid')
-        // 查询所有用户记录
+    const { userid } = req.cookies
+
+    // 查询所有用户记录
     UserModel.find((err, userDocs) => {
         const users = {}
             // 生成一个对象，储存key值是id.val是userMame和header
         userDocs.forEach(doc => {
-                users[doc_id] = {
+                users[doc._id] = {
                     userName: doc.userName,
                     header: doc.header,
                 }
             })
             // 查询和userid相关莲的聊天
             // 1.查询条件 2. 过滤条件 3.回调函数
-        ChatModel.find({ '$or': [{ from: userid }, { to: userid }] }, filter, function(err, chatMsg) {
+        ChatModel.find({ '$or': [{ from: userid }, { to: userid }] }, {}, function(err, chatMsg) {
             res.send({
                 code: 1000,
                 data: {
@@ -48,3 +49,6 @@ router.post('/readmsg', function(req, res, next) {
         })
     })
 })
+
+
+module.exports = router

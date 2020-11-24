@@ -1,4 +1,4 @@
-import { AUTHSUCESS, ERRORMSG, RECEIVEUSER, RESETUSER, RECEIVEWORK } from './action-types'
+import { AUTHSUCESS, ERRORMSG, RECEIVEUSER, RESETUSER, RECEIVEWORK, RECEIVEMSG, RECEIVEMSGLIST } from './action-types'
 import { combineReducers } from 'redux'
 import { getRedirectTo } from '../utils/index.js'
 
@@ -30,6 +30,32 @@ function workList(state = [], action = []) {
     switch (action.type) {
         case RECEIVEWORK:
             return action.data
+        default:
+            return state
+    }
+}
+
+const initChat = {
+    users: {},
+    chatMsg: []
+}
+
+// 获取消息reducer
+function msgList(state = initChat, action) {
+    switch (action.type) {
+        case RECEIVEMSGLIST:
+            var { users, chatMsg } = action.data
+            return {
+                users,
+                chatMsg: [...state.chatMsg, ...chatMsg]
+            }
+        case RECEIVEMSG:
+            console.log(action, 112233)
+            var { users, chatMsg } = action.data
+            return {
+                users,
+                chatMsg: [...state.chatMsg, ...chatMsg]
+            }
         default:
             return state
     }

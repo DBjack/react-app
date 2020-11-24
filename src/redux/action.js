@@ -1,7 +1,10 @@
 import { Toast } from 'antd-mobile'
-import { AUTHSUCESS, ERRORMSG, RECEIVEUSER, RESETUSER, RECEIVEWORK } from './action-types'
+import { AUTHSUCESS, ERRORMSG, RECEIVEUSER, RESETUSER, RECEIVEWORK, RECEIVEMSG, RECEIVEMSGLIST } from './action-types'
 import { doRegister, doLogin, updateInfo, getUser } from '../api/user'
+import { getMsgList } from '../api/chat'
 import { getWork } from '../api/work'
+import io from 'socket.io-client'
+
 
 function authSuccess(data) {
     return {
@@ -36,6 +39,23 @@ export function receiveWork(data) {
 
     return {
         type: RECEIVEWORK,
+        data
+    }
+}
+
+// 同步获取单条消息
+export function receiveMsg(data) {
+
+    return {
+        type: RECEIVEMSG,
+        data
+    }
+}
+// 同步获取消息列表
+export function receiveMsgList(data) {
+
+    return {
+        type: RECEIVEMSGLIST,
         data
     }
 }
@@ -130,5 +150,43 @@ export function getWorkInfo() {
             console.log(data, 123456)
             dispatch(receiveWork(data))
         }
+    }
+}
+
+// 初始化IO
+function initIO(dispatch, userid) {
+    if (!io.socket) {
+        io.socket = io('ws://localhost:4000')
+        io.socket.on('receiveMsg', (chatMsgs) => {
+            console.log('接收到服务端的数据')
+            const { from, to } = chatMsgs
+
+            if (from === userid || to === userid) {
+                dispatch(receiveMsg(chatMsgs, to === userid))
+            }
+        })
+    }
+}
+
+
+// 获取所有聊天信息列表
+export function getChatMsg(userid) {
+    return async dispatch => {
+        initIO(dispatch, userid)
+        const { code, data, msg } = await getMsgList()
+        if (code === 1000) {
+
+            dispatch(receiveMsgList(data))
+        }
+
+    }
+}
+
+// 发送单条消息
+export function sendMsg({ from, to, content }) {
+    return async dispatch => {
+        // console.log(from, to, content)
+        io.socket.emit('sendMsg', { from, to, content })
+
     }
 }
