@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import {List } from 'antd-mobile'
 import {connect } from 'react-redux'
+import workerCard  from '../../components/workerCard/workerCard'
+import WorkerCard from '../../components/workerCard/workerCard';
 class Dashen extends Component {
     constructor(props) {
         super(props);
@@ -12,27 +14,21 @@ class Dashen extends Component {
     }
 
     redirectDetail=(userid)=>{
-        this.props.history.push(`/detail/${userid}`)
+        this.props.history.push(`/chat/${userid}`)
     }
 
     render() { 
-        const {workList } = this.props
-
+        const {userList } = this.props
+        
+        const users = userList.filter(user=>user.type === 'work')
+        
         return ( 
             <div>
             {
-                workList.map(work=>{ 
-                   return <List onClick={this.redirectDetail.bind(null,work.user._id)}>
-                        <List.Item>
-                            <img src="" alt=""/>
-                            <div>
-                                <h5>{work.work}</h5>
-                                <span>{work.company}</span>
-                                <span>{work.city}</span>
-                                <span>{work.worktime}</span>
-                                <span>{work.education}</span>
-                            </div>
-                                <h5>{work.salary}</h5>
+                users.map(user=>{ 
+                   return <List onClick={this.redirectDetail.bind(null,user._id)}>
+                        <List.Item key={user._id}>
+                            <WorkerCard card={user}></WorkerCard>
                         </List.Item>
                     </List>
                 })
@@ -43,5 +39,5 @@ class Dashen extends Component {
 }
  
 export default connect(
-    state=>({workList:state.workList})
+    state=>({userList:state.userList})
 )(Dashen)

@@ -1,6 +1,6 @@
 import { Toast } from 'antd-mobile'
-import { AUTHSUCESS, ERRORMSG, RECEIVEUSER, RESETUSER, RECEIVEWORK, RECEIVEMSG, RECEIVEMSGLIST } from './action-types'
-import { doRegister, doLogin, updateInfo, getUser } from '../api/user'
+import { AUTHSUCESS, ERRORMSG, RECEIVEUSER, RESETUSER, RECEIVEWORK, RECEIVEMSG, RECEIVEMSGLIST, RECEIVEUSERLIST } from './action-types'
+import { doRegister, doLogin, updateInfo, getUser, getUserList } from '../api/user'
 import { getMsgList } from '../api/chat'
 import { getWork } from '../api/work'
 import io from 'socket.io-client'
@@ -31,6 +31,13 @@ function receiveUser(data) {
 export function resetUser(data) {
     return {
         type: RESETUSER,
+        data
+    }
+}
+
+export function receiveUserList(data) {
+    return {
+        type: RECEIVEUSERLIST,
         data
     }
 }
@@ -111,17 +118,23 @@ export function login(user) {
 // 更新
 export function update(user) {
 
-    const { name, job, worktime, intruduction } = user
+    const { name, age, profession, worktime, salary, description, header } = user
     return async(dispatch) => {
 
         if (name == '') {
             return dispatch(errorMsg('请输入名称'))
-        } else if (job == '') {
-            return dispatch(errorMsg('请输入求职工作'))
+        } else if (profession == '') {
+            return dispatch(errorMsg('请输入职业'))
         } else if (worktime == '') {
             return dispatch(errorMsg('请输入工作年限'))
-        } else if (intruduction == '') {
+        } else if (description == '') {
             return dispatch(errorMsg('请输入个人介绍'))
+        } else if (age == '') {
+            return dispatch(errorMsg('请选择年龄'))
+        } else if (!header.text) {
+            return dispatch(errorMsg('请选择头像'))
+        } else if (salary.length === 0) {
+            return dispatch(errorMsg('请选择期望薪资'))
         }
         const { data, code, msg } = await updateInfo(user)
         if (code === 1000) {
@@ -139,6 +152,17 @@ export function getUserInfo() {
         const { data, code, msg } = await getUser()
         if (code === 1000) {
             dispatch(receiveUser(data))
+        }
+    }
+}
+// 查找所有的user
+export function getUserListInfo() {
+
+    return async(dispatch) => {
+
+        const { data, code, msg } = await getUserList()
+        if (code === 1000) {
+            dispatch(receiveUserList(data))
         }
     }
 }

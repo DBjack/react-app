@@ -4,7 +4,7 @@ import {NavBar } from 'antd-mobile'
 import  Cookies from 'js-cookie'
 import { connect } from 'react-redux'
 import { getRedirectTo } from '../../utils';
-import {getUserInfo,getWorkInfo,getChatMsg } from '../../redux/action'
+import {getUserInfo,getWorkInfo,getChatMsg,getUserListInfo } from '../../redux/action'
 
 import BossInfo from '../bossinfo/bossinfo'
 import WorkerInfo from '../workerinfo/workerinfo'
@@ -53,6 +53,7 @@ class Main extends Component {
         if(userid && !user.id){
             this.props.getUserInfo()
             this.props.getChatMsg()
+            this.props.getUserListInfo()
         }
         this.props.getWorkInfo()
     }
@@ -105,6 +106,7 @@ export default connect(
     {
         getUserInfo,
         getWorkInfo,
-        getChatMsg
+        getChatMsg,
+        getUserListInfo
     }
 )(Main);

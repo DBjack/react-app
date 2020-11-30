@@ -1,11 +1,34 @@
 import React, { Component } from 'react';
-import {NavBar,WhiteSpace,InputItem,Button,List,Toast } from 'antd-mobile'
+import {NavBar,WhiteSpace,InputItem,Button,List,Toast,Picker,TextareaItem } from 'antd-mobile'
 import { BrowserRouter as Router, Route, NavLink ,Redirect} from 'react-router-dom'
 
 import {connect } from 'react-redux'
 import { update} from '../../redux/action'
 import HeaderAvatar from '../../components/header-avatar/header-avatar'
 import './index.scss'
+
+
+
+const ageList = new Array(100).fill(1).map((age,i)=>({
+    label:i+1,
+    value:i+1,
+}))
+const workTimes = [[...new Array(20).fill(1).map((age,i)=>({
+    label:i,
+    value:i,
+}))],[...new Array(20).fill(1).map((age,i)=>({
+    label:i+1,
+    value:i+1,
+}))]]
+const salaryList = [[...new Array(30).fill(1).map((age,i)=>({
+    label:(i+1)*1000,
+    value:(i+1)*1000,
+}))],[...new Array(30).fill(1).map((age,i)=>({
+    label:(i+2)*1000,
+    value:(i+2)*1000,
+}))]]
+
+
 
 
 
@@ -52,7 +75,7 @@ console.log(this.state)
         if(header.text){
             avatar = <div>
                <span>已选择头像</span>
-               <img src={header.icon} alt="头像"/>
+               <img src={header.icon} alt="头像" className='ml-2'/>
            </div>
         }
         if(isSave && msg){
@@ -69,18 +92,63 @@ console.log(this.state)
         return ( 
             <div className='main'>
                 
-                    <NavBar>招聘人员信息</NavBar>
+                    <NavBar>补全个人信息</NavBar>
                     <HeaderAvatar selectAvatar={this.selectAvatar}></HeaderAvatar>
                     <List className='list-input'>
                         <List.Item>
                     {avatar}
                         </List.Item>
                     <InputItem placeholder='请输入姓名' onChange={val=>this.handleChange('name',val)}>姓名</InputItem>
+                    
                     <WhiteSpace></WhiteSpace>
-                    <InputItem  placeholder='请输入公司名称' onChange={val=>this.handleChange('company',val)}>公司</InputItem>
+                    <InputItem placeholder='请输入职业' onChange={val=>this.handleChange('profession',val)}>职业</InputItem>
+                   <Picker cols={1} data={ageList} 
+                       onChange={val=>this.handleChange('age',val)}
+                       format={label=>{
+                           if(label>0){
+                               return label + '岁'
+                           }
+                       }}
+                        value = {this.state.age}>
+                       <List.Item arrow="horizontal">
+                              年龄
+                       </List.Item>
+                   </Picker>
+                   
                     <WhiteSpace></WhiteSpace>
-                    <InputItem  placeholder='请输入招聘岗位' onChange={val=>this.handleChange('job',val)}>招聘岗位</InputItem>
+                    <Picker cols={2} data={workTimes} 
+                       onChange={val=>this.handleChange('workTime',val)}
+                       format={label=>{
+                           if(label.length>0){
+                               return label.join('-') + '年'
+                           }
+                       }}
+                       cascade={false}
+                       extra="请选择"
+                        value = {this.state.workTime}>
+                       <List.Item arrow="horizontal">
+                              工作年限
+                       </List.Item>
+                   </Picker>
                     <WhiteSpace></WhiteSpace>
+                    <Picker cols={2} data={salaryList} 
+                       onChange={val=>this.handleChange('salary',val)}
+                       format={label=>{
+                           if(label.length>0){
+                               return label.join('-') + '元'
+                           }
+                       }}
+                       cascade={false}
+                       extra="请选择"
+                        value = {this.state.salary}>
+                       <List.Item arrow="horizontal">
+                              期望薪资
+                       </List.Item>
+                   </Picker>
+                    <WhiteSpace></WhiteSpace>
+                        <TextareaItem title='描述' autoHeight></TextareaItem>
+                    <WhiteSpace></WhiteSpace>
+                  
                     <Button type='primary' onClick={this.clickSave}>保存</Button>
                     </List>
                 

@@ -91,12 +91,31 @@ router.post('/update', function(req, res, next) {
             }
         })
     })
-    // 查找
+    // 查找单个
 router.get('/getUser', function(req, res, next) {
 
-    const { userid } = req.cookies
-    UserName.findOne({ _id: userid }, req.body, (err, user) => {
+        const { userid } = req.cookies
+        UserName.findOne({ _id: userid }, req.body, (err, user) => {
 
+            if (user) {
+                res.send({
+                    code: 1000,
+                    data: user,
+                    msg: '查找成功'
+                })
+            } else {
+                res.send({
+                    code: 1001,
+                    msg: err
+                })
+            }
+        })
+    })
+    // 查找所的用户
+router.get('/getUserList', function(req, res, next) {
+
+
+    UserName.find((err, user) => {
         if (user) {
             res.send({
                 code: 1000,

@@ -1,0 +1,9 @@
+.chat-footer {
+    width: 100vw;
+    position: fixed;
+    bottom: 0;
+    display: flex;
+    .chat-button {
+        flex: 1
+    }
+}

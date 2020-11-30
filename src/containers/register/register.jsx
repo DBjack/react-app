@@ -76,16 +76,16 @@ class Register extends Component {
                 <Logo></Logo>
                 <WingBlank>
                 <List>
-                    <InputItem   placeholder="请输入用户名" error={this.state.userError} onErrorClick={this.onErrorClick} onChange={val=>this.handleChange('userName',val)}>用户名</InputItem>
+                    <InputItem   placeholder="请输入用户名" error={this.state.userError} onErrorClick={this.onErrorClick}  onChange={val=>this.handleChange('userName',val)}>用户名</InputItem>
                     <WhiteSpace/>
-                    <InputItem placeholder="请输入密码" onChange={val=>this.handleChange('password',val)}>密码</InputItem>
+                    <InputItem placeholder="请输入密码" onChange={val=>this.handleChange('password',val)} type='password'>密码</InputItem>
                     <WhiteSpace/>
-                    <InputItem placeholder="请输入确认密码" onChange={val=>this.handleChange('rePassword',val)}>确认密码</InputItem>
+                    <InputItem placeholder="请输入确认密码" onChange={val=>this.handleChange('rePassword',val)} type='password'>确认密码</InputItem>
                     <WhiteSpace/>
                     <List.Item>
                         <span className='mr-2'>用户类型</span>
-                        <Radio onChange={val=>this.handleChange('type','boss')}>老板</Radio>
-                        <Radio onChange={val=>this.handleChange('type','work')}>大神</Radio>
+                        <Radio onChange={val=>this.handleChange('type','boss')}>招聘者</Radio>
+                        <Radio onChange={val=>this.handleChange('type','work')}>求职者</Radio>
                     </List.Item>
                     <WhiteSpace></WhiteSpace>
                     <Button type='primary' onClick={this.register}>注册</Button>

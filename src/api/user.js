@@ -6,6 +6,7 @@ const api = {
     doLogin: '/login',
     updateInfo: '/update',
     getUser: '/getUser',
+    getUserList: '/getUserList',
 }
 
 export function doRegister(paramter) {
@@ -34,5 +35,11 @@ export function getUser(paramter) {
     return ajax({
         type: 'get',
         url: api.getUser,
+    })
+}
+export function getUserList(paramter) {
+    return ajax({
+        type: 'get',
+        url: api.getUserList,
     })
 }

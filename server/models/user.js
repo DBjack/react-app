@@ -6,9 +6,12 @@ const userSchame = mongoose.Schema({
     type: { type: String, required: true },
     name: { type: String },
     header: { type: Object },
-    job: { type: String },
-    worktime: { type: String },
-    introduction: { type: String },
+    profession: { type: String },
+    age: { type: Array },
+    education: { type: Array },
+    workTime: { type: Array },
+    salary: { type: Array },
+    description: { type: String },
 
 })
 
