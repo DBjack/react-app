@@ -7,7 +7,7 @@ module.exports = function(server) {
         console.log('服务端和客户端建立连接成功')
             // 接受客户端发来的数据
         soket.on('sendMsg', function({ from, to, content }) {
-            console.log('接受的数据', { from, id, content })
+
 
             // 保存到数据库
             const chat_id = [from, to].sort().join('_')

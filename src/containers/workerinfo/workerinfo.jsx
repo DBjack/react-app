@@ -93,8 +93,8 @@ console.log(this.state)
                <img src={header.icon} alt="头像" className='ml-2'/>
            </div>
         }
-        if(isSave && msg){
-            Toast.info(msg)
+        if(isSave && msg!==''){
+            Toast.info(msg,1)
         }
 
 

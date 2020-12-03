@@ -111,6 +111,7 @@
     "less": "^2.7.3",
     "less-loader": "^5.0.0",
     "react-app-rewired": "^2.0.2-next.0",
+    "redux-devtools-extension": "^2.13.8",
     "yarn": "^1.22.10"
   },
   "jest": {

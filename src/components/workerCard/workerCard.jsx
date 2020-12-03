@@ -11,6 +11,7 @@ class workerCard extends Component {
         const {card } = this.props
         return (
             <div className='worker-card'>
+                {card&& <div>
                 <img src="" alt=""/>
                 <div className='px-1'>
                     <div className='d-flex ai-center jc-between'>
@@ -28,7 +29,8 @@ class workerCard extends Component {
                         <span>{card.description}</span>
                     </div>
                 </div>
-                                
+            </div>   
+            }
             </div>
           );
     }

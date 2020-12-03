@@ -171,7 +171,6 @@ export function getWorkInfo() {
     return async(dispatch) => {
         const { data, code, msg } = await getWork()
         if (code === 1000) {
-            console.log(data, 123456)
             dispatch(receiveWork(data))
         }
     }
@@ -181,12 +180,11 @@ export function getWorkInfo() {
 function initIO(dispatch, userid) {
     if (!io.socket) {
         io.socket = io('ws://localhost:4000')
-        io.socket.on('receiveMsg', (chatMsgs) => {
-            console.log('接收到服务端的数据')
-            const { from, to } = chatMsgs
+        io.socket.on('receiveMsg', (chatMsg) => {
 
+            const { from, to } = chatMsg
             if (from === userid || to === userid) {
-                dispatch(receiveMsg(chatMsgs, to === userid))
+                dispatch(receiveMsg({ chatMsg, userid }))
             }
         })
     }
@@ -199,8 +197,7 @@ export function getChatMsg(userid) {
         initIO(dispatch, userid)
         const { code, data, msg } = await getMsgList()
         if (code === 1000) {
-
-            dispatch(receiveMsgList(data))
+            dispatch(receiveMsgList({ data, userid }))
         }
 
     }

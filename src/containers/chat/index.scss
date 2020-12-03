@@ -1,9 +1,52 @@
+.chat-top {
+    position: fixed;
+    width: 100vw;
+    top: 0;
+    box-shadow: 0 1px 10px #53d7c9;
+}
+
+.chat-body {
+    padding: 0 0 50px 0;
+    margin-top: 200px;
+    .chat-content {
+        display: flex;
+        align-items: flex-start;
+        margin: 20px 10px;
+        img {
+            width: 28px;
+            margin: 0 10px 0 0;
+        }
+        span {
+            background-color: #5dd5c8;
+            padding: 6px 10px;
+            border-radius: 4px;
+            color: #fff;
+        }
+    }
+    .mychat {
+        flex-direction: row-reverse;
+        img {
+            width: 28px;
+            margin: 0 0 0 10px;
+        }
+        span {
+            background-color: #e1e1e1;
+            padding: 6px 10px;
+            border-radius: 4px;
+            color: #1c1c1c;
+        }
+    }
+}
+
 .chat-footer {
     width: 100vw;
     position: fixed;
     bottom: 0;
     display: flex;
+    .footer-input {
+        width: 80%;
+    }
     .chat-button {
-        flex: 1
+        flex: 1;
     }
 }

@@ -63,11 +63,11 @@ class Register extends Component {
         if(redirectTo){
             return <Redirect to={redirectTo}></Redirect>
         }
-        if(msg && isRegister){
+        if(msg!=='' && isRegister){
             this.setState({
                 isRegister:false
             })
-             Toast.info(msg)
+             Toast.info(msg,1)
         }
         
         return ( 

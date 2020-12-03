@@ -16,7 +16,6 @@ function user(state = initState, action = {}) {
         case ERRORMSG:
             return {...state, msg: action.data }
         case RECEIVEUSER:
-
             return {...action.data, redirectTo: getRedirectTo(action.data.type, action.data.header) }
             // 重组redux中user中的状态
         case RESETUSER:
@@ -47,23 +46,30 @@ function workList(state = [], action = []) {
 
 const initChat = {
     users: {},
-    chatMsg: []
+    chatMsg: [],
+    unReadCount: 0
 }
 
 // 获取消息reducer
 function chatMsgList(state = initChat, action) {
     switch (action.type) {
         case RECEIVEMSGLIST:
-            var { users, chatMsg } = action.data
+            var { data, userid } = action.data
+            var { users, chatMsg } = data
             return {
                 users,
-                chatMsg: [...state.chatMsg, ...chatMsg]
+                chatMsg: [...state.chatMsg, ...chatMsg],
+                unReadCount: chatMsg.reduce((total, chat) => {
+                    return total + (chat.to === userid && !chat.read) ? 1 : 0
+                }, 0)
             }
+            // 接收单条消息
         case RECEIVEMSG:
-            var { users, chatMsg } = action.data
+            var { userid, chatMsg } = action.data
             return {
-                users,
-                chatMsg: [...state.chatMsg, ...chatMsg]
+                users: state.users,
+                chatMsg: [...state.chatMsg, chatMsg],
+                unReadCount: state.unReadCount + (chatMsg.to === userid && !chatMsg.read ? 1 : 0)
             }
         default:
             return state
@@ -75,5 +81,6 @@ function chatMsgList(state = initChat, action) {
 export default combineReducers({
     user,
     workList,
-    userList
+    userList,
+    chatMsgList
 })

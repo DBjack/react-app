@@ -47,15 +47,17 @@ class Main extends Component {
         },
     ]
     componentDidMount(){
-        const userid = Cookies.get('userid')
+        const cookieid = Cookies.get('userid')
+        const userid = cookieid.slice(3).slice(0,-1)
+        
         const { user } = this.props
         
         if(userid && !user.id){
             this.props.getUserInfo()
-            this.props.getChatMsg()
-            this.props.getUserListInfo()
         }
-        this.props.getWorkInfo()
+        this.props.getChatMsg(userid)
+        this.props.getUserListInfo()
+        // this.props.getWorkInfo()
     }
     render() {
         const { navList} = this

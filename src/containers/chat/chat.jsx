@@ -14,8 +14,9 @@ class Chat extends Component {
     }
 
     sendMsg=()=>{
-        const { userid:from } = this.props.match.params
-        const to = Cookies.get('userid')
+        const { userid:to } = this.props.match.params
+        const userid = Cookies.get('userid')
+        const from =userid.slice(3).slice(0,-1)
         const { content } = this.state
 
         this.props.sendMsg({
@@ -33,27 +34,43 @@ class Chat extends Component {
     }
 
     render() {
+        
+
          const toid = this.props.match.params.userid
-        const { userList }  = this.props
+        const { userList,chatMsgList,user }  = this.props
+        const { users,chatMsg } = chatMsgList
+        // 获取card信息
         const card = userList.find(user=>user._id === toid)
 
-        // const workInfo = workList.map(work=>{
-        //     if(work.user._id === toid){
-        //         return work
-        //     }
-        // })
-        // console.log(workInfo,123)
+
+            console.log(users,chatMsg,111)
         
         return (
             <div>
-                
+                <div className="chat-top">
                 <WorkerCard card ={card}></WorkerCard>
+                </div>
                 <WhiteSpace></WhiteSpace>
+                <div className="chat-body">
+                {chatMsg.map(chat=>{
+                    // 我发送的消息
+                    if(chat.from === user._id){
+                        return  <div className='chat-content mychat'>
+                            <img src={user.header.icon} alt=""/>
+                            <span>{chat.content}</span>
+                            </div>
+                    }else{
+                        return  <div className='chat-content'>
+                            <img src={card.header.icon} alt=""/>
+                            <span>{chat.content}</span>
+                            </div>
+                    }
+                })}
+                </div>
                 <div className='chat-footer'>
-
-                <TextareaItem placeholder='请输入...' onChange={val=>this.changeInput(val)}>
+                <TextareaItem autoHeight className='footer-input' placeholder='请输入...' onChange={val=>this.changeInput(val)}>
                 </TextareaItem>
-                <Button onClick={this.sendMsg} className='chat-button'>发送</Button>
+                <Button onClick={this.sendMsg} className='chat-button'  type='primary'>发送</Button>
                 </div>
 
                 

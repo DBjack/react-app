@@ -35,12 +35,12 @@ class Register extends Component {
     render() {
         const {isLogin} = this.state
         const {redirectTo,msg }  = this.props.user
-        console.log(msg,111)
+        
         if(redirectTo){
             return <Redirect to={redirectTo}></Redirect>
         }
-        if(msg && isLogin){
-            Toast.info(msg)
+        if(msg!=='' && isLogin){
+            Toast.info(msg,1)
             this.setState({
                 isLogin:false
             })
