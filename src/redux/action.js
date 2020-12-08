@@ -1,7 +1,7 @@
 import { Toast } from 'antd-mobile'
-import { AUTHSUCESS, ERRORMSG, RECEIVEUSER, RESETUSER, RECEIVEWORK, RECEIVEMSG, RECEIVEMSGLIST, RECEIVEUSERLIST } from './action-types'
+import { AUTHSUCESS, ERRORMSG, RECEIVEUSER, RESETUSER, RECEIVEWORK, RECEIVEMSG, RECEIVEMSGLIST, RECEIVEUSERLIST, READMSG } from './action-types'
 import { doRegister, doLogin, updateInfo, getUser, getUserList } from '../api/user'
-import { getMsgList } from '../api/chat'
+import { getMsgList, redMsg } from '../api/chat'
 import { getWork } from '../api/work'
 import io from 'socket.io-client'
 
@@ -63,6 +63,14 @@ export function receiveMsgList(data) {
 
     return {
         type: RECEIVEMSGLIST,
+        data
+    }
+}
+// 同步获取更新的消息
+export function msgRead(data) {
+
+    return {
+        type: READMSG,
         data
     }
 }
@@ -209,5 +217,15 @@ export function sendMsg({ from, to, content }) {
         // console.log(from, to, content)
         io.socket.emit('sendMsg', { from, to, content })
 
+    }
+}
+
+// 更新读取消息的异步方法
+export function updateRedMsg(from, to) {
+    return async dispatch => {
+        const { code, data: count } = await redMsg({ from, to })
+        if (code === 1000) {
+            dispatch(msgRead({ from, to, count }))
+        }
     }
 }

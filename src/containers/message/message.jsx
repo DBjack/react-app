@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import {List } from 'antd-mobile'
+import {List,Badge } from 'antd-mobile'
+import RcQueueAnim from 'rc-queue-anim'
 class Message extends Component {
     constructor(props) {
         super(props);
@@ -12,6 +13,7 @@ class Message extends Component {
     redirectChat= (userid)=>{
         this.props.history.push(`/chat/${userid}`)
     }
+    
     render() { 
         const {user,chatMsgList,userList } = this.props
         const { users,chatMsg} = chatMsgList
@@ -20,14 +22,22 @@ class Message extends Component {
         let lastChatObjs = {}
         // 遍历所有消息列表，取出chatid的最后一项
         chatMsg.map(chat=>{
+            chat.unReadCount = 0
             const chatid = chat.chat_id
-            //  如果存在，则比较create_time的大小
+
+            // 如果read状态为false，未读数就是1
+            if(chat.to === user._id && !chat.read){
+                chat.unReadCount = 1
+            }
+
             if(chat.to === user._id){
+                //  如果存在，则比较create_time的大小
                 if(lastChatObjs[chatid]){
                     if(lastChatObjs[chatid]['create_time'] < chat['create_time'] ){
                         lastChatObjs[chatid]  = chat
                     }
                 }else {
+                    chat.unReadCount++
                      lastChatObjs[chatid]  =chat
                 }
             }
@@ -41,16 +51,22 @@ class Message extends Component {
         })
 
 
+     
+       
         return ( 
-            <List>
-                
+            <List>  
+                <RcQueueAnim>
                 {messages.map(message=>{
+                    // 获取对应的用户信息
                     const userinfo = userList.find(user=>user._id === message.from)
-                    return <List.Item key={message._id} onClick={this.redirectChat.bind(null,message.from)}>
+
+                    return <List.Item key={message._id} onClick={this.redirectChat.bind(null,message.from)} 
+                    extra={<Badge text={message.unReadCount} size='small'></Badge>}>
                         <img src={userinfo.header.icon} alt="" className='mr-2'/>
                         { message.content}
                     </List.Item>
                 })}
+            </RcQueueAnim>
             </List>
          );
     }

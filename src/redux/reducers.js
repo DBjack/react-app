@@ -1,4 +1,4 @@
-import { AUTHSUCESS, ERRORMSG, RECEIVEUSER, RESETUSER, RECEIVEWORK, RECEIVEMSG, RECEIVEMSGLIST, RECEIVEUSERLIST } from './action-types'
+import { AUTHSUCESS, ERRORMSG, RECEIVEUSER, RESETUSER, RECEIVEWORK, RECEIVEMSG, RECEIVEMSGLIST, RECEIVEUSERLIST, READMSG } from './action-types'
 import { combineReducers } from 'redux'
 import { getRedirectTo } from '../utils/index.js'
 
@@ -71,6 +71,22 @@ function chatMsgList(state = initChat, action) {
                 chatMsg: [...state.chatMsg, chatMsg],
                 unReadCount: state.unReadCount + (chatMsg.to === userid && !chatMsg.read ? 1 : 0)
             }
+            // 读取消息更新
+        case READMSG:
+            var { count, from, to } = action.data
+            return {
+                users: state.users,
+                chatMsg: state.chatMsg.map(chat => {
+                    // 如果读取消息， 修改read的状态，不能直接修改chat.read = true 
+                    if (chat.from === from && chat.to === to && !chat.read) {
+                        return {...chat, read: true }
+                    } else {
+                        return chat
+                    }
+                }),
+                unReadCount: state.unReadCount - count
+            }
+
         default:
             return state
     }

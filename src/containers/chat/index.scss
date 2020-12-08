@@ -42,11 +42,10 @@
     width: 100vw;
     position: fixed;
     bottom: 0;
-    display: flex;
-    .footer-input {
-        width: 80%;
+    .am-list-item {
+        width: 100%;
     }
-    .chat-button {
-        flex: 1;
+    .text {
+        line-height: 26px;
     }
 }

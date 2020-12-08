@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import {List } from 'antd-mobile'
 import {connect } from 'react-redux'
+import RcQueueAnim from 'rc-queue-anim'
+
 import workerCard  from '../../components/workerCard/workerCard'
 import WorkerCard from '../../components/workerCard/workerCard';
 class Dashen extends Component {
@@ -24,15 +26,17 @@ class Dashen extends Component {
         
         return ( 
             <div>
-            {
-                users.map(user=>{ 
-                   return <List onClick={this.redirectDetail.bind(null,user._id)}>
-                        <List.Item key={user._id}>
-                            <WorkerCard card={user}></WorkerCard>
-                        </List.Item>
-                    </List>
-                })
-            }
+                <RcQueueAnim>
+                    {
+                        users.map(user=>{ 
+                        return <List onClick={this.redirectDetail.bind(null,user._id)}>
+                                <List.Item key={user._id}>
+                                    <WorkerCard card={user}></WorkerCard>
+                                </List.Item>
+                            </List>
+                        })
+                    }
+                </RcQueueAnim>
             </div>
          );
     }

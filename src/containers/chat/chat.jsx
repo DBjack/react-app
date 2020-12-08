@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import {  Button,TextareaItem,WhiteSpace,List,WingBlank} from 'antd-mobile'
-import { sendMsg } from '../../redux/action'
+import {  Button,TextareaItem,WhiteSpace,List,WingBlank, InputItem,Grid} from 'antd-mobile'
+import { sendMsg,updateRedMsg } from '../../redux/action'
 import { connect } from 'react-redux'
 import Cookies from 'js-cookie'
 import WorkerCard from '../../components/workerCard/workerCard'
@@ -9,7 +9,8 @@ class Chat extends Component {
     constructor(props) {
         super(props);
         this.state = { 
-            content:''
+            content:'',
+            showEmj:false
          }
     }
 
@@ -24,26 +25,59 @@ class Chat extends Component {
             to,
             content
         })
+        this.setState({content:'',showEmj:false})
+    
     }
 
-    // 获取input的值
-    changeInput=(content)=>{
-        this.setState({
-            content
-        })
+    
+
+    componentWillMount(){
+        this.emojis = ['😀','😁','😁','😁','😁','😁','😁','😁','😁','😁','😁','😁','😁']
+        this.emojis = this.emojis.map(value=>({text:value}))
     }
+
+    componentDidMount(){
+        const from = this.props.match.params.userid
+        const to = this.props.user._id
+        this.props.updateRedMsg(from,to)
+
+        window.scrollTo(0,document.body.scrollHeight)
+    }
+
+
+
+    componentWillUnmount(){
+        const from = this.props.match.params.userid
+        const to = this.props.user._id
+        this.props.updateRedMsg(from,to)
+    }
+
+
+    // 切换表情
+    toggleShow=()=>{
+        const isShow = !this.state.showEmj
+        this.setState({
+            showEmj: isShow
+        })
+        // 异步手动派发 resize 事件,解决表情列表显示的 bug
+        if(isShow){
+            setTimeout(()=>{
+                window.dispatchEvent(new Event('resize'))
+            },0)
+        }
+    }
+
+
 
     render() {
-        
-
-         const toid = this.props.match.params.userid
+        const toid = this.props.match.params.userid
         const { userList,chatMsgList,user }  = this.props
         const { users,chatMsg } = chatMsgList
         // 获取card信息
         const card = userList.find(user=>user._id === toid)
 
 
-            console.log(users,chatMsg,111)
+
         
         return (
             <div>
@@ -66,11 +100,27 @@ class Chat extends Component {
                             </div>
                     }
                 })}
+
                 </div>
-                <div className='chat-footer'>
-                <TextareaItem autoHeight className='footer-input' placeholder='请输入...' onChange={val=>this.changeInput(val)}>
-                </TextareaItem>
-                <Button onClick={this.sendMsg} className='chat-button'  type='primary'>发送</Button>
+                    <div className='chat-footer'>
+                        <InputItem placeholder='请输入' value={this.state.content} onChange={content=>this.setState({content})} onFocus={val=>this.setState({showEmj:false})} extra={
+                            <span className='text'>
+                                <span className='mr-1' onClick={this.toggleShow}>😀</span>
+                                <span onClick={this.sendMsg}>发送</span>
+                            </span>
+                        }>
+                        </InputItem>
+                        {
+                            this.state.showEmj ? 
+                                <Grid data={ this.emojis} columnNum ={8} carouselMaxRow={4} isCarousel={true} onClick={item=>{
+                                    this.setState({
+                                        content: this.state.content + item.text
+                                    })
+                                }
+                            }></Grid> :null
+                        }
+
+                
                 </div>
 
                 
@@ -87,6 +137,7 @@ export default connect(
         chatMsgList:state.chatMsgList
     }),
     {
-        sendMsg
+        sendMsg,
+        updateRedMsg
     }
 )(Chat);
