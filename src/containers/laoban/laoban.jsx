@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {List } from 'antd-mobile'
+import {List,SearchBar } from 'antd-mobile'
 import {connect } from 'react-redux'
 class Laoban extends Component {
     constructor(props) {
@@ -20,6 +20,7 @@ class Laoban extends Component {
 
         return ( 
             <div>
+                 <SearchBar placeholder="Search" maxLength={8} />
             {
                 workList.map(work=>{ 
                    return <List onClick={this.redirectDetail.bind(null,work.user._id)}>

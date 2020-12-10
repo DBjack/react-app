@@ -1,0 +1,39 @@
+.am-list-extra {
+    flex-basis: 6%!important;
+}
+
+.message-item {
+    display: flex;
+    align-items: center;
+    .message-avatar {
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        background-color: #ccc;
+        border-radius: 20px;
+        margin: 0 8px 0 0;
+    }
+    main {
+        width: 100%;
+    }
+    .message-user {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        font-size: 1.2rem;
+        color: #333;
+        .profession {
+            font-size: 0.9rem;
+            margin: 0 0 0 10px;
+            font-weight: 200;
+            color: #ccc;
+        }
+        .createTime {
+            width: 20%;
+            font-weight: 200;
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+    }
+}

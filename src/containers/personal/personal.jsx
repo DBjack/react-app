@@ -38,17 +38,20 @@ class Personal extends Component {
         return ( 
             <div>
                 <Result 
-                    title={user.userName}
-                    message={user.job}  
+                    title={user.name}
+                    message={user.profession}  
                     img={<img src={user.header.icon}></img>}>
                 </Result>
+                
+                <List>
+                    <Item arrow="horizontal" thumb="https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png">附件简历</Item>
+                    <Item arrow="horizontal" thumb="https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png">管理求职意向</Item>
+                </List>
                 <WhiteSpace></WhiteSpace>
                 <List>
-                    <Item multipleLine>
-                        <Brief>姓名：{user.userName}</Brief>
-                        <Brief>公司：{user.company}</Brief>
-                        <Brief>职位：{user.job}</Brief>
-                    </Item>
+                    <Item arrow="horizontal" thumb="https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png">个人主页</Item>
+                    <Item arrow="horizontal" thumb="https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png">牛人问答</Item>
+                    <Item arrow="horizontal" thumb="https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png">我的客服</Item>
                 </List>
                 <WhiteSpace></WhiteSpace>
                 <List>

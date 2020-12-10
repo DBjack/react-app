@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, NavLink,Switch, Redirect } from 'react-router-dom'
-import {NavBar } from 'antd-mobile'
+import { HashRouter as Router, Route, NavLink,Switch, Redirect } from 'react-router-dom'
+import {NavBar,Icon } from 'antd-mobile'
 import  Cookies from 'js-cookie'
 import { connect } from 'react-redux'
 import { getRedirectTo } from '../../utils';
@@ -84,9 +84,10 @@ class Main extends Component {
 
         // 如果是主界面路由显示头部和底部
         const mainPath =navList.find(nav=>nav.path==pathname)
+        console.log(mainPath,111)
         return ( 
             <div>
-                {mainPath ? <NavBar>主页</NavBar> : null}
+                {mainPath ? <NavBar>{mainPath.title}</NavBar> : null}
                 <Switch>
                     <Route path='/bossinfo' component={BossInfo}></Route>
                     <Route path='/workerinfo' component={WorkerInfo}></Route>

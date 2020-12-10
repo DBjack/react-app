@@ -44,6 +44,16 @@ app.all("*", function(req, res, next) {
     }
 })
 
+
+
+// var corsOptions = {
+//     origin: 'http://119.45.43.3:80',
+//     credentials: true,
+//     maxAge: '1728000'
+//         //这一项是为了跨域专门设置的
+// }
+// app.use(cors(corsOptions))
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/works', worksRouter);

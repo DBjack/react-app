@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {List } from 'antd-mobile'
+import {List,SearchBar } from 'antd-mobile'
 import {connect } from 'react-redux'
 import RcQueueAnim from 'rc-queue-anim'
 
@@ -26,6 +26,7 @@ class Dashen extends Component {
         
         return ( 
             <div>
+                 <SearchBar placeholder="Search" maxLength={8} />
                 <RcQueueAnim>
                     {
                         users.map(user=>{ 

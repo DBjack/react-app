@@ -187,7 +187,7 @@ export function getWorkInfo() {
 // 初始化IO
 function initIO(dispatch, userid) {
     if (!io.socket) {
-        io.socket = io('ws://localhost:4000')
+        io.socket = io(process.env.REACT_APP_IOURL)
         io.socket.on('receiveMsg', (chatMsg) => {
 
             const { from, to } = chatMsg

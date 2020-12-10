@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {  Button,TextareaItem,WhiteSpace,List,WingBlank, InputItem,Grid} from 'antd-mobile'
+import {  Button,TextareaItem,WhiteSpace,List,WingBlank, InputItem,Grid,NavBar,Icon} from 'antd-mobile'
 import { sendMsg,updateRedMsg } from '../../redux/action'
 import { connect } from 'react-redux'
 import Cookies from 'js-cookie'
@@ -32,7 +32,7 @@ class Chat extends Component {
     
 
     componentWillMount(){
-        this.emojis = ['😀','😁','😁','😁','😁','😁','😁','😁','😁','😁','😁','😁','😁']
+        this.emojis = ['😀','😂','😍','😊','😁','😭','😜','😝','😄','😡','😀','😥','🙃','😋','👍','👌','❤','😱','🐷','🤩','🤔','🤨','😑','😶','🙄','😏','😏','😣','😥','😮','🤐','😯','😪','😫','😫','😴','😌','😛','😜','😝']
         this.emojis = this.emojis.map(value=>({text:value}))
     }
 
@@ -82,6 +82,8 @@ class Chat extends Component {
         return (
             <div>
                 <div className="chat-top">
+                <NavBar icon={<Icon type="left" onClick={this.props.history.goBack.bind(null)}/>}>聊天</NavBar> 
+
                 <WorkerCard card ={card}></WorkerCard>
                 </div>
                 <WhiteSpace></WhiteSpace>

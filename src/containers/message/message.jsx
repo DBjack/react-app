@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import {List,Badge } from 'antd-mobile'
+import {List,Badge,SearchBar,Icon } from 'antd-mobile'
+import dayjs from 'dayjs'
 import RcQueueAnim from 'rc-queue-anim'
+
+import './message.scss'
 class Message extends Component {
     constructor(props) {
         super(props);
@@ -55,15 +58,31 @@ class Message extends Component {
        
         return ( 
             <List>  
+                 <SearchBar placeholder="输入姓名查找联系人" maxLength={8} />
                 <RcQueueAnim>
                 {messages.map(message=>{
                     // 获取对应的用户信息
                     const userinfo = userList.find(user=>user._id === message.from)
-
+                    
                     return <List.Item key={message._id} onClick={this.redirectChat.bind(null,message.from)} 
-                    extra={<Badge text={message.unReadCount} size='small'></Badge>}>
-                        <img src={userinfo.header.icon} alt="" className='mr-2'/>
-                        { message.content}
+                    extra={<Badge text={message.unReadCount} size='small' className='message-badge'></Badge>}>
+                        <div className='message-item'>
+                            <div className='message-avatar'>
+                                <img src={userinfo.header.icon} alt="" className='mr-2'/>
+                            </div>
+                            <main>
+                                <div className='message-user'>
+                                    <div>
+                                        <span>{userinfo.name}</span> 
+                                        <span className='profession'>{userinfo.profession}</span> 
+                                    </div>
+                                   <span className='createTime'>{dayjs(message.create_time).format('MM-DD')}</span> 
+                                </div>
+                                <div className='message-content'>
+                                    { message.content}
+                                </div>
+                            </main>
+                        </div>
                     </List.Item>
                 })}
             </RcQueueAnim>

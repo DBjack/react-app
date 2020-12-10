@@ -44,7 +44,7 @@ router.post('/register', function(req, res, next) {
 router.post('/login', function(req, res, next) {
         const { userName, password } = req.body
         UserName.findOne({ userName }, (err, user) => {
-            console.log(user, err);
+
             if (user) {
                 if (md5(password) === user.password) {
                     res.cookie('userid', user._id, {

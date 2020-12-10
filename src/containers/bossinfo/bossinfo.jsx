@@ -91,7 +91,6 @@ console.log(this.state)
         }
         return ( 
             <div className='main'>
-                
                     <NavBar>补全个人信息</NavBar>
                     <HeaderAvatar selectAvatar={this.selectAvatar}></HeaderAvatar>
                     <List className='list-input'>
