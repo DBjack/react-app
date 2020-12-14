@@ -24,16 +24,39 @@ class Main extends Component {
         super(props);
         this.state = {  }
     }
-    navList = [
+    bossNavList = [
         {
-            title:'老板',
-            icon:'laoban',
-            path:'/laoban'
-        },
-        {
-            title:'大神',
+            title:'求职者',
             icon:'dashen',
             path:'/dashen'
+        },
+        {
+            title:'发现',
+            icon:'dashen',
+            path:'/discover'
+        },
+        {
+            title:'信息',
+            icon:'message',
+            path:'/message'
+        },
+        {
+            title:'个人中心',
+            icon:'personal',
+            path:'/personal'
+        },
+    ]
+    workNavList = [
+       
+        {
+            title:'求职者',
+            icon:'dashen',
+            path:'/dashen'
+        },
+        {
+            title:'发现',
+            icon:'dashen',
+            path:'/discover'
         },
         {
             title:'信息',
@@ -60,10 +83,9 @@ class Main extends Component {
         // this.props.getWorkInfo()
     }
     render() {
-        const { navList} = this
+        const {user } = this.props
         const { pathname} = this.props.history.location
         
-        const {user } = this.props
         const _id = Cookies.get('userid')
 
         // 如果_id不存在，直接跳转到登录页
@@ -82,17 +104,19 @@ class Main extends Component {
         }
 
 
+        let navList
+        user.type === 'boss' ? navList = this.workNavList : navList = this.bossNavList
+        
+
         // 如果是主界面路由显示头部和底部
         const mainPath =navList.find(nav=>nav.path==pathname)
-        console.log(mainPath,111)
         return ( 
             <div>
                 {mainPath ? <NavBar>{mainPath.title}</NavBar> : null}
                 <Switch>
+                    { user.type === 'boss' ?<Route path='/dashen' component={Dashen}></Route> :<Route path='/laoban' component={Laoban}></Route>}
                     <Route path='/bossinfo' component={BossInfo}></Route>
                     <Route path='/workerinfo' component={WorkerInfo}></Route>
-                    <Route path='/laoban' component={Laoban}></Route>
-                    <Route path='/dashen' component={Dashen}></Route>
                     <Route path='/message' component={Message}></Route>
                     <Route path='/personal'  component={Personal}></Route>
                     <Route path='/detail/:userid'  component={Detail}></Route>

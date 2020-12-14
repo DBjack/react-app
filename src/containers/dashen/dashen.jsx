@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
-import {List,SearchBar } from 'antd-mobile'
+import {List,SearchBar,Icon,ActionSheet } from 'antd-mobile'
 import {connect } from 'react-redux'
 import RcQueueAnim from 'rc-queue-anim'
 
-import workerCard  from '../../components/workerCard/workerCard'
+
 import WorkerCard from '../../components/workerCard/workerCard';
+import AddWork from '../addwork/addwork';
+
+import './index.scss'
 class Dashen extends Component {
     constructor(props) {
         super(props);
-        this.state = {  }
+        this.state = { 
+            showAdd:false
+         }
     }
 
     componentDidMount(){
@@ -18,6 +23,19 @@ class Dashen extends Component {
     redirectDetail=(userid)=>{
         this.props.history.push(`/chat/${userid}`)
     }
+    
+    // 添加工作
+    addWork=()=>{
+        this.setState({
+            showAdd:true
+        })
+    }
+    // 隐藏工作
+    hidden=()=>{
+        this.setState({
+            showAdd:false
+        })
+    }
 
     render() { 
         const {userList } = this.props
@@ -25,8 +43,10 @@ class Dashen extends Component {
         const users = userList.filter(user=>user.type === 'work')
         
         return ( 
-            <div>
+            <div className='work-list'>
+                        
                  <SearchBar placeholder="Search" maxLength={8} />
+                <div className="plus-btn" onClick={this.addWork}>+</div>
                 <RcQueueAnim>
                     {
                         users.map(user=>{ 
@@ -38,6 +58,9 @@ class Dashen extends Component {
                         })
                     }
                 </RcQueueAnim>
+                    
+                <AddWork hidden={this.hidden} showAdd={this.state.showAdd}></AddWork>
+                
             </div>
          );
     }

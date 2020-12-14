@@ -1,36 +1,14 @@
 import React, { Component } from 'react';
 import {NavBar,WhiteSpace,InputItem,Button,List,Toast,Picker,TextareaItem } from 'antd-mobile'
-import { BrowserRouter as Router, Route, NavLink ,Redirect} from 'react-router-dom'
 
-import {connect } from 'react-redux'
-import { update} from '../../redux/action'
-import HeaderAvatar from '../../components/header-avatar/header-avatar'
+
 import './index.scss'
-
 
 
 const ageList = new Array(100).fill(1).map((age,i)=>({
     label:i+1,
     value:i+1,
 }))
-const educations = [
-    {
-        label:'专科',
-        value:'专科',
-    },
-    {
-        label:'本科',
-        value:'本科',
-    },
-    {
-        label:'硕士',
-        value:'硕士',
-    },
-    {
-        label:'博士',
-        value:'博士',
-    },
-]
 const workTimes = [[...new Array(20).fill(1).map((age,i)=>({
     label:i,
     value:i,
@@ -46,33 +24,31 @@ const salaryList = [[...new Array(30).fill(1).map((age,i)=>({
     value:(i+2)*1000,
 }))]]
 
-
-
-
-
-class WorkInfo extends Component {
+class AddWork extends Component {
     constructor(props) {
         super(props);
         this.state = { 
-            header:{},
-            isSave:false
+            name:'',
+            company:'',
+            job:'',
+        
          }
     }
 
-    // 操作input
-    handleChange(type,val){
+     // 操作input
+    handleChange=(type,val)=>{
         this.setState({
             [type]:val
         })
     }
     // 选择头像
- selectAvatar=(avatar,i)=>{
-    console.log(avatar,i,11122)
-    this.setState({
-        header:avatar
-    })
-console.log(this.state)
-}  
+    selectAvatar=(avatar,i)=>{
+        console.log(avatar,i,11122)
+        this.setState({
+            header:avatar
+        })
+    } 
+
     // 保存
     clickSave=()=>{
         console.log(this.state,111)
@@ -81,42 +57,19 @@ console.log(this.state)
             isSave:true
         })
     }
+
     render() { 
-        const {header,isSave} =  this.state
-        const {redirectTo,msg} = this.props.user
-
-        let avatar 
-        
-        if(header.text){
-            avatar = <div>
-               <span>已选择头像</span>
-               <img src={header.icon} alt="头像" className='ml-2'/>
-           </div>
-        }
-        if(isSave && msg!==''){
-            Toast.info(msg,1)
-        }
-
-
-        if(isSave && redirectTo){
-            this.setState({
-                isSave:false
-            })
-            return <Redirect to={redirectTo}></Redirect>
-        }
+        const { showAdd } = this.props
+        console.log(this.props.hidden)
         return ( 
-            <div className='main'>
-                
-                    <NavBar>补全个人信息</NavBar>
-                    <HeaderAvatar selectAvatar={this.selectAvatar}></HeaderAvatar>
-                    <List className='list-input'>
-                        <List.Item>
-                    {avatar}
-                        </List.Item>
-                    <InputItem placeholder='请输入姓名' onChange={val=>this.handleChange('name',val)}>姓名</InputItem>
+            <div className={showAdd ?  'add-work ' : 'add-work hidden' }>
+                <div className="pull-down" onClick={this.props.hidden}></div>
+                <div className='main'>
+                    <NavBar>发布招聘信息</NavBar>
+                    <List className='list-input'>                   
                     
                     <WhiteSpace></WhiteSpace>
-                    <InputItem placeholder='请输入职业' onChange={val=>this.handleChange('profession',val)}>职业</InputItem>
+                    <InputItem placeholder='请输入职位名称' onChange={val=>this.handleChange('profession',val)}>职业</InputItem>
                    <Picker cols={1} data={ageList} 
                        onChange={val=>this.handleChange('age',val)}
                        format={label=>{
@@ -126,19 +79,10 @@ console.log(this.state)
                        }}
                         value = {this.state.age}>
                        <List.Item arrow="horizontal">
-                              年龄
+                              年龄要求
                        </List.Item>
                    </Picker>
                    
-                    <WhiteSpace></WhiteSpace>
-                    <Picker cols={1} data={educations} 
-                       onChange={val=>this.handleChange('education',val)}
-                       extra="请选择"
-                        value = {this.state.education}>
-                       <List.Item arrow="horizontal">
-                              学历
-                       </List.Item>
-                   </Picker>
                     <WhiteSpace></WhiteSpace>
                     <Picker cols={2} data={workTimes} 
                        onChange={val=>this.handleChange('workTime',val)}
@@ -166,24 +110,21 @@ console.log(this.state)
                        extra="请选择"
                         value = {this.state.salary}>
                        <List.Item arrow="horizontal">
-                              期望薪资
+                              薪资水平
                        </List.Item>
                    </Picker>
                     <WhiteSpace></WhiteSpace>
-                        <TextareaItem  onChange={val=>this.handleChange('description',val)} title='描述' autoHeight></TextareaItem>
+                        <TextareaItem title='描述' autoHeight></TextareaItem>
                     <WhiteSpace></WhiteSpace>
                   
                     <Button type='primary' onClick={this.clickSave}>保存</Button>
                     </List>
-                
             </div>
+            </div>   
          );
     }
 }
  
-export default connect(
-    state=>({user:state.user}),
-    {
-        update
-    }
-)(WorkInfo);
+
+
+export default AddWork;

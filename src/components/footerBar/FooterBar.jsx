@@ -15,7 +15,7 @@ class FooterBar extends Component {
     render() { 
         
         const {pathname } = this.props.history.location
-        const {navList,chatMsgList } = this.props
+        const {navList,chatMsgList,user } = this.props
         const {unReadCount} = chatMsgList
         
         return ( 
@@ -41,6 +41,7 @@ class FooterBar extends Component {
  
 export default connect(
     state=>({
+        user:state.user,
         chatMsgList:state.chatMsgList
     })
 )(withRouter(FooterBar));

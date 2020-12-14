@@ -1,0 +1,24 @@
+.add-work {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    z-index: 1000;
+    top: 0;
+    background-color: #fff;
+    transition-duration: 5000;
+    .pull-down {
+        width: 40px;
+        height: 30px;
+        position: absolute;
+        right: 50%;
+        top: 10px;
+        transform: translateX(50%);
+        background: url('../../assets/img/icon/bottom.png') 26% 100% no-repeat;
+        background-size: 100%;
+    }
+}
+
+.hidden {
+    transform: translateY(100vh);
+    display: none;
+}
