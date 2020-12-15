@@ -13,7 +13,7 @@ function authSuccess(data) {
     }
 }
 
-function errorMsg(data) {
+export function errorMsg(data) {
     return {
         type: ERRORMSG,
         data
@@ -141,7 +141,7 @@ export function update(user) {
             return dispatch(errorMsg('请选择年龄'))
         } else if (!header.text) {
             return dispatch(errorMsg('请选择头像'))
-        } else if (salary.length === 0) {
+        } else if (salary && salary.length === 0) {
             return dispatch(errorMsg('请选择期望薪资'))
         }
         const { data, code, msg } = await updateInfo(user)

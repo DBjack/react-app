@@ -85,7 +85,7 @@ class AddWork extends Component {
                    
                     <WhiteSpace></WhiteSpace>
                     <Picker cols={2} data={workTimes} 
-                       onChange={val=>this.handleChange('workTime',val)}
+                        onChange={val=>this.handleChange('workTime',val)}
                        format={label=>{
                            if(label.length>0){
                                return label.join('-') + '年'
