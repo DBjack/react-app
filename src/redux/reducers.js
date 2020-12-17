@@ -1,4 +1,4 @@
-import { AUTHSUCESS, ERRORMSG, RECEIVEUSER, RESETUSER, RECEIVEWORK, RECEIVEMSG, RECEIVEMSGLIST, RECEIVEUSERLIST, READMSG } from './action-types'
+import { AUTHSUCESS, ERRORMSG, RECEIVEUSER, RESETUSER, RECEIVEWORK, RECEIVEWORKLIST, RECEIVEMSG, RECEIVEMSGLIST, RECEIVEUSERLIST, READMSG } from './action-types'
 import { combineReducers } from 'redux'
 import { getRedirectTo } from '../utils/index.js'
 
@@ -37,6 +37,8 @@ function userList(state = [], action = []) {
 function workList(state = [], action = []) {
     switch (action.type) {
         case RECEIVEWORK:
+            return [...state, action.data]
+        case RECEIVEWORKLIST:
             return action.data
         default:
             return state

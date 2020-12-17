@@ -1,17 +1,15 @@
 const mongoose = require('mongoose')
 
 const workSchame = mongoose.Schema({
-    work: { type: String, required: true },
-    update_time: { type: Date, required: true },
-    creator: { type: String, required: true },
-    content: { type: String, required: true },
-    worktime: { type: Number, required: true },
-    // icon: { type: Object, required: true },
     company: { type: String, required: true },
-    city: { type: String, required: true },
-    education: { type: String, required: true },
-    salary: { type: String, required: true },
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'user', required: true },
+    update_time: { type: Date, required: true },
+    workTime: { type: Array, required: true },
+    profession: { type: String, required: true },
+    age: { type: Array, required: true },
+    education: { type: Array, required: true },
+    description: { type: String, required: true },
+    skills: { type: Array, required: true },
+    creator: { type: mongoose.Schema.Types.ObjectId, ref: 'user', required: true },
 })
 
 const WorkModel = mongoose.model('work', workSchame)

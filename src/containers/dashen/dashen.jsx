@@ -60,7 +60,7 @@ class Dashen extends Component {
           </RcQueueAnim>
         </List>
 
-        <AddWork hidden={this.hidden} showAdd={this.state.showAdd}></AddWork>
+        {/* <AddWork hidden={this.hidden} showAdd={this.state.showAdd}></AddWork> */}
       </div>
     );
   }

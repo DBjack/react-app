@@ -5,7 +5,10 @@ const WorkModel = require('../models/work')
 
 // 添加工作列表
 router.post('/add', (req, res, next) => {
-        new WorkModel(req.body).save((err, work) => {
+        const { userid } = req.cookies
+        const date = new Date()
+        console.log({...req.body, update_time: date, creator: userid })
+        new WorkModel({...req.body, update_time: date, creator: userid }).save((err, work) => {
             assert(work, 500, err)
             res.send({
                 code: 1000,
@@ -13,13 +16,12 @@ router.post('/add', (req, res, next) => {
                 data: work
 
             })
-
         })
 
     })
     // 查询工作列表
 router.get('/list', (req, res, next) => {
-    WorkModel.find().populate({ path: 'user', select: 'userName type name header job worktime' }).exec((err, work) => {
+    WorkModel.find().populate({ path: 'creator', select: 'name header' }).exec((err, work) => {
         // assert(work, 500, err)
         res.send({
             code: 1000,

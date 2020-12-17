@@ -1,8 +1,8 @@
 import { Toast } from 'antd-mobile'
-import { AUTHSUCESS, ERRORMSG, RECEIVEUSER, RESETUSER, RECEIVEWORK, RECEIVEMSG, RECEIVEMSGLIST, RECEIVEUSERLIST, READMSG } from './action-types'
+import { AUTHSUCESS, ERRORMSG, RECEIVEUSER, RESETUSER, RECEIVEWORK, RECEIVEWORKLIST, RECEIVEMSG, RECEIVEMSGLIST, RECEIVEUSERLIST, READMSG } from './action-types'
 import { doRegister, doLogin, updateInfo, getUser, getUserList } from '../api/user'
 import { getMsgList, redMsg } from '../api/chat'
-import { getWork } from '../api/work'
+import { getWork, addWork } from '../api/work'
 import io from 'socket.io-client'
 
 
@@ -46,6 +46,14 @@ export function receiveWork(data) {
 
     return {
         type: RECEIVEWORK,
+        data
+    }
+}
+
+export function receiveWorkList(data) {
+
+    return {
+        type: RECEIVEWORKLIST,
         data
     }
 }
@@ -174,12 +182,22 @@ export function getUserListInfo() {
         }
     }
 }
+
+// 添加工作
+export function addWorkInfo(workinfo) {
+    return async(dispatch) => {
+        const { data, code, msg } = await addWork(workinfo)
+        if (code === 1000) {
+            dispatch(receiveWork(data))
+        }
+    }
+}
 // 查找工作列表
 export function getWorkInfo() {
     return async(dispatch) => {
         const { data, code, msg } = await getWork()
         if (code === 1000) {
-            dispatch(receiveWork(data))
+            dispatch(receiveWorkList(data))
         }
     }
 }

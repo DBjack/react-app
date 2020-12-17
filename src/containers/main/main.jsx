@@ -66,7 +66,7 @@ class Main extends Component {
     }
     this.props.getChatMsg(userid);
     this.props.getUserListInfo();
-    // this.props.getWorkInfo()
+    this.props.getWorkInfo();
   }
   render() {
     const { user } = this.props;
@@ -95,11 +95,8 @@ class Main extends Component {
       <div>
         {mainPath ? <NavBar>{mainPath.title}</NavBar> : null}
         <Switch>
-          {user.type === "boss" ? (
-            <Route path="/dashen" component={Dashen}></Route>
-          ) : (
-            <Route path="/laoban" component={Laoban}></Route>
-          )}
+          <Route path="/dashen" component={Dashen}></Route>
+          <Route path="/laoban" component={Laoban}></Route>
           <Route path="/bossinfo" component={BossInfo}></Route>
           <Route path="/workerinfo" component={WorkerInfo}></Route>
           <Route path="/message" component={Message}></Route>

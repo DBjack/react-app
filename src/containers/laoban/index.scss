@@ -1,0 +1,20 @@
+ // position: relative;
+ .work-list {
+     position: relative;
+     .plus-btn {
+         width: 48px;
+         height: 48px;
+         line-height: 48px;
+         text-align: center;
+         border-radius: 30px;
+         font-size: 2rem;
+         font-weight: 100;
+         color: #fff;
+         background-color: #5dd5c8;
+         position: fixed;
+         z-index: 999;
+         bottom: 80px;
+         right: 10px;
+         box-shadow: 0 2px 3px #5dd5c8;
+     }
+ }
