@@ -38,6 +38,38 @@ const workTimes = [
     value: "5年以上",
   },
 ];
+const scaleList = [
+  {
+    label: "100-500",
+    value: "100-500",
+  },
+  {
+    label: "500-1000",
+    value: "500-1000",
+  },
+  {
+    label: "1000-5000",
+    value: "1000-5000",
+  },
+  {
+    label: "5000-10000",
+    value: "5000-10000",
+  },
+];
+const workTypeList = [
+  {
+    label: "代招",
+    value: "代招",
+  },
+  {
+    label: "急聘",
+    value: "急聘",
+  },
+  {
+    label: "外包",
+    value: "外包",
+  },
+];
 const educations = [
   {
     label: "高中",
@@ -56,6 +88,40 @@ const educations = [
     value: "博士",
   },
 ];
+const salaryList = [
+  [
+    {
+      label: "5000-10000",
+      value: "5000-10000",
+    },
+    {
+      label: "10k-20k",
+      value: "10k-20k",
+    },
+    {
+      label: "30-50k",
+      value: "30k-50k",
+    },
+    {
+      label: "50k",
+      value: "50k",
+    },
+  ],
+  [
+    {
+      label: "13薪",
+      value: "13薪",
+    },
+    {
+      label: "15薪",
+      value: "15薪",
+    },
+    {
+      label: "16薪",
+      value: "16薪",
+    },
+  ],
+];
 
 class AddWork extends Component {
   constructor(props) {
@@ -68,6 +134,10 @@ class AddWork extends Component {
       education: [],
       skills: [],
       description: "",
+      salary: [],
+      scale: [],
+      workType: [],
+      address: "",
     };
   }
 
@@ -115,12 +185,43 @@ class AddWork extends Component {
               公司
             </InputItem>
             <WhiteSpace></WhiteSpace>
+            <Picker
+              cols={1}
+              data={scaleList}
+              onChange={(val) => this.handleChange("scale", val)}
+              value={this.state.scale}
+              format={(val) => {
+                if (val.length > 0) {
+                  return val + "人";
+                }
+              }}
+            >
+              <List.Item arrow="horizontal">公司规模</List.Item>
+            </Picker>
+            <WhiteSpace></WhiteSpace>
             <InputItem
               placeholder="请输入职业名称"
               onChange={(val) => this.handleChange("profession", val)}
             >
-              职业
+              招聘岗位
             </InputItem>
+            <WhiteSpace></WhiteSpace>
+            <InputItem
+              placeholder="请输入地址"
+              onChange={(val) => this.handleChange("address", val)}
+            >
+              地址
+            </InputItem>
+            <WhiteSpace></WhiteSpace>
+            <Picker
+              cols={1}
+              data={workTypeList}
+              onChange={(val) => this.handleChange("workType", val)}
+              value={this.state.workType}
+            >
+              <List.Item arrow="horizontal">岗位类型</List.Item>
+            </Picker>
+            <WhiteSpace></WhiteSpace>
             <Picker
               cols={1}
               data={ageList}
@@ -154,6 +255,16 @@ class AddWork extends Component {
               value={this.state.education}
             >
               <List.Item arrow="horizontal">教育水平</List.Item>
+            </Picker>
+            <Picker
+              cols={2}
+              cascade={false}
+              data={salaryList}
+              onChange={(val) => this.handleChange("salary", val)}
+              extra="请选择"
+              value={this.state.salary}
+            >
+              <List.Item arrow="horizontal">薪资水平</List.Item>
             </Picker>
             <WhiteSpace></WhiteSpace>
             <div className="skills">

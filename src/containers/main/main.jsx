@@ -101,7 +101,7 @@ class Main extends Component {
           <Route path="/workerinfo" component={WorkerInfo}></Route>
           <Route path="/message" component={Message}></Route>
           <Route path="/personal" component={Personal}></Route>
-          <Route path="/detail/:userid" component={Detail}></Route>
+          <Route path="/detail/:id" component={Detail}></Route>
           <Route path="/chat/:userid" component={Chat}></Route>
         </Switch>
         {mainPath ? <FooterBar navList={this.navList}></FooterBar> : null}

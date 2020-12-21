@@ -17,4 +17,46 @@
          right: 10px;
          box-shadow: 0 2px 3px #5dd5c8;
      }
+     .row {
+         padding: 4px 12px;
+         .row-header {
+             display: flex;
+             align-items: center;
+             justify-content: space-between;
+             .am-tag {
+                 color: #999
+             }
+             .salary {
+                 color: #5dd5c8
+             }
+         }
+         .row-tag {
+             display: flex;
+             align-items: center;
+             margin-bottom: 10px;
+             .am-tag {
+                 margin-right: 6px;
+             }
+         }
+         .company {
+             font-size: 12px;
+             color: #999;
+         }
+         .row-user {
+             margin: 6px 0;
+             display: flex;
+             align-items: center;
+             justify-content: space-between;
+             font-size: 12px;
+             color: #999;
+             img {
+                 width: 20px;
+                 height: 20px;
+                 margin-right: 4px;
+             }
+             .address {
+                 color: #ccc;
+             }
+         }
+     }
  }
