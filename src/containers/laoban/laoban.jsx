@@ -105,6 +105,14 @@ class Laoban extends Component {
         <div className="plus-btn" onClick={this.showDrawer}>
           +
         </div>
+        <Drawer
+          open={this.state.open}
+          docked={false}
+          sidebar={<AddWork hideDrawer={this.hideDrawer}></AddWork>}
+          style={{
+            minHeight: document.documentElement.clientHeight,
+          }}
+        ></Drawer>
 
         <ListView
           ref={(el) => (this.lv = el)}
@@ -132,15 +140,6 @@ class Laoban extends Component {
           // onEndReached={this.onEndReached}
           onEndReachedThreshold={10}
         />
-
-        <Drawer
-          open={this.state.open}
-          docked={false}
-          sidebar={<AddWork hideDrawer={this.hideDrawer}></AddWork>}
-          style={{
-            minHeight: document.documentElement.clientHeight,
-          }}
-        ></Drawer>
       </div>
     );
   }

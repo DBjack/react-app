@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { List, Button, NavBar, Icon, Tag } from "antd-mobile";
 import { Map, Marker } from "react-amap";
+import "./index.scss";
 class Detail extends Component {
   constructor(props) {
     super(props);
@@ -21,36 +22,73 @@ class Detail extends Component {
     });
     return (
       <div>
-        <NavBar icon={<Icon type="left" onClick={this.props.hideDrawer} />}>
+        <NavBar
+          icon={
+            <Icon type="left" onClick={this.props.history.goBack.bind(null)} />
+          }
+        >
           招聘详情
         </NavBar>
-        <div className="detail-title">
-          <h2>{workInfo.profession}</h2>
-          <span className="salary">{workInfo.salary}</span>
-        </div>
-        <div className="detail-user">
-          <img src={workInfo.creator.header.icon} alt="" />
-          <span>{workInfo.creator.name}</span>
-          <span>{workInfo.creator.company}</span>
-          <span>{workInfo.creator.profession}</span>
-        </div>
-        <div>
-          <h3>职位详情</h3>
-          <div className="tag">
-            {workInfo.skills.map((skill) => (
-              <Tag small>{skill}</Tag>
-            ))}
+        <div className="detail">
+          <div className="detail-title">
+            <span className="profession">{workInfo.profession}</span>
+            <span className="salary">{workInfo.salary}</span>
           </div>
-          <span>职位描述</span>
-          <div>{workInfo.description}</div>
-          <div style={{ width: 800, height: 600 }}>
+          <div className="detail-tag">
+            <span>
+              <i className="iconfont icon-dizhi"></i>
+              {workInfo.address}
+            </span>
+            <span>
+              <i className="iconfont icon-gongzuojingyan"></i>
+              {workInfo.workTime}
+            </span>
+            <span>
+              <i className="iconfont icon-xueli"></i>
+              {workInfo.education}
+            </span>
+          </div>
+          <div className="detail-user">
+            <img src={workInfo.creator.header.icon} alt="" />
+            <div>
+              <span className="name">{workInfo.creator.name}</span>
+              <br />
+              <span>{workInfo.creator.company}</span> ·
+              <span>{workInfo.creator.profession}</span>
+            </div>
+          </div>
+          <div className="detail-content">
+            <h4>职位详情</h4>
+            <div className="tag">
+              {workInfo.skills.map((skill) => (
+                <Tag small>{skill}</Tag>
+              ))}
+            </div>
+
+            <div className="detail">{workInfo.description}</div>
+          </div>
+          <div className="detail-map">
             <Map>
               <Marker position={{ longitude: 120, latitude: 30 }} />
             </Map>
           </div>
+          <div className="detail-tip">
+            <span className="title">
+              <i className="iconfont icon-jinggao"></i>
+              温馨提示
+            </span>
+            <div className="content">
+              该Boss承诺名下所有职位不向您收费，如有不实，请立即举报
+            </div>
+          </div>
+          <Button
+            type="primary"
+            className="detail-btn"
+            onClick={this.redirectChat.bind(null, workInfo.creator._id)}
+          >
+            立即沟通
+          </Button>
         </div>
-        <div>跟他沟通：{workInfo.name}</div>
-        <Button type="primary">沟通</Button>
       </div>
     );
   }

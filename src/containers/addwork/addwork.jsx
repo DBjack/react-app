@@ -270,19 +270,21 @@ class AddWork extends Component {
             <div className="skills">
               <List.Item>技能要求</List.Item>
               <Tag onChange={(val) => this.changeSkill("html", val)}>html</Tag>
-              <Tag onChange={(val) => this.changeSkill("html", val)}>css</Tag>
-              <Tag onChange={(val) => this.changeSkill("html", val)}>
+              <Tag onChange={(val) => this.changeSkill("css", val)}>css</Tag>
+              <Tag onChange={(val) => this.changeSkill("javaScript", val)}>
                 javaScript
               </Tag>
-              <Tag onChange={(val) => this.changeSkill("html", val)}>Vue</Tag>
-              <Tag onChange={(val) => this.changeSkill("html", val)}>React</Tag>
-              <Tag onChange={(val) => this.changeSkill("html", val)}>
+              <Tag onChange={(val) => this.changeSkill("Vue", val)}>Vue</Tag>
+              <Tag onChange={(val) => this.changeSkill("React", val)}>
+                React
+              </Tag>
+              <Tag onChange={(val) => this.changeSkill("Angular", val)}>
                 Angular
               </Tag>
-              <Tag onChange={(val) => this.changeSkill("html", val)}>
+              <Tag onChange={(val) => this.changeSkill("nodejs", val)}>
                 nodeJs
               </Tag>
-              <Tag onChange={(val) => this.changeSkill("html", val)}>
+              <Tag onChange={(val) => this.changeSkill("mongoDB", val)}>
                 mongoDB
               </Tag>
             </div>
