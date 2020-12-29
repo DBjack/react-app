@@ -1,12 +1,20 @@
+/*
+ * @Author: your name
+ * @Date: 2020-11-11 22:26:55
+ * @LastEditTime: 2020-12-29 22:51:50
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \my-app\src\api\user.js
+ */
 import ajax from './axios'
 
 
 const api = {
-    doRegister: '/register',
-    doLogin: '/login',
-    updateInfo: '/update',
-    getUser: '/getUser',
-    getUserList: '/getUserList',
+    doRegister: 'user/register',
+    doLogin: 'user/login',
+    updateInfo: 'user/update',
+    getUser: 'user/user',
+    getUserList: 'user/list',
 }
 
 export function doRegister(paramter) {
@@ -39,7 +47,8 @@ export function getUser(paramter) {
 }
 export function getUserList(paramter) {
     return ajax({
-        type: 'get',
+        type: 'post',
         url: api.getUserList,
+        data: paramter
     })
 }

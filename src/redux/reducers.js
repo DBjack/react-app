@@ -27,7 +27,7 @@ function user(state = initState, action = {}) {
 function userList(state = [], action = []) {
     switch (action.type) {
         case RECEIVEUSERLIST:
-            return action.data
+            return [...state, ...action.data]
         default:
             return state;
     }
@@ -39,7 +39,7 @@ function workList(state = [], action = []) {
         case RECEIVEWORK:
             return [...state, action.data]
         case RECEIVEWORKLIST:
-            return action.data
+            return [...state, ...action.data.work]
         default:
             return state
     }

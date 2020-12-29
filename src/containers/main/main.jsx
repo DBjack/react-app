@@ -10,12 +10,7 @@ import { NavBar, Icon } from "antd-mobile";
 import Cookies from "js-cookie";
 import { connect } from "react-redux";
 import { getRedirectTo } from "../../utils";
-import {
-  getUserInfo,
-  getWorkInfo,
-  getChatMsg,
-  getUserListInfo,
-} from "../../redux/action";
+import { getUserInfo, getChatMsg } from "../../redux/action";
 
 import BossInfo from "../bossinfo/bossinfo";
 import WorkerInfo from "../workerinfo/workerinfo";
@@ -65,8 +60,6 @@ class Main extends Component {
       this.props.getUserInfo();
     }
     this.props.getChatMsg(userid);
-    this.props.getUserListInfo();
-    this.props.getWorkInfo();
   }
   render() {
     const { user } = this.props;
@@ -112,7 +105,5 @@ class Main extends Component {
 
 export default connect((state) => ({ user: state.user }), {
   getUserInfo,
-  getWorkInfo,
   getChatMsg,
-  getUserListInfo,
 })(Main);

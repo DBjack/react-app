@@ -51,7 +51,6 @@ export function receiveWork(data) {
 }
 
 export function receiveWorkList(data) {
-
     return {
         type: RECEIVEWORKLIST,
         data
@@ -172,11 +171,11 @@ export function getUserInfo() {
     }
 }
 // 查找所有的user
-export function getUserListInfo() {
+export function getUserListInfo(params) {
 
     return async(dispatch) => {
 
-        const { data, code, msg } = await getUserList()
+        const { data, code, msg } = await getUserList(params)
         if (code === 1000) {
             dispatch(receiveUserList(data))
         }
@@ -193,9 +192,9 @@ export function addWorkInfo(workinfo) {
     }
 }
 // 查找工作列表
-export function getWorkInfo() {
+export function getWorkInfo(params) {
     return async(dispatch) => {
-        const { data, code, msg } = await getWork()
+        const { data, code, msg } = await getWork(params)
         if (code === 1000) {
             dispatch(receiveWorkList(data))
         }

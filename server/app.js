@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-11-09 21:57:09
+ * @LastEditTime: 2020-12-29 22:47:35
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \my-app\server\app.js
+ */
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -55,7 +63,7 @@ app.all("*", function(req, res, next) {
 // app.use(cors(corsOptions))
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/user', usersRouter);
 app.use('/works', worksRouter);
 app.use('/chat', chatRouter);
 

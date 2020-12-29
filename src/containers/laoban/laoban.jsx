@@ -1,6 +1,14 @@
 import React, { Component } from "react";
-import { List, SearchBar, Drawer, ListView, Tag } from "antd-mobile";
+import {
+  List,
+  SearchBar,
+  Drawer,
+  ListView,
+  Tag,
+  PullToRefresh,
+} from "antd-mobile";
 import { connect } from "react-redux";
+import { getWorkInfo } from "../../redux/action";
 import RcQueueAnim from "rc-queue-anim";
 import AddWork from "../addwork/addwork";
 import "./index.scss";
@@ -15,13 +23,31 @@ class Laoban extends Component {
     this.state = {
       open: false,
       dataSource: ds,
+      pageNum: 1,
+      isLoading: true,
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.props.getWorkInfo({
+      pageNum: this.state.pageNum,
+    });
+  }
 
   redirectDetail = (userid) => {
     this.props.history.push(`/detail/${userid}`);
+  };
+  onEndReached = () => {
+    const { workList } = this.props;
+    if (workList.length === 10) {
+      let { pageNum } = this.state;
+      pageNum++;
+      this.props.getWorkInfo({ pageNum });
+      return;
+    }
+    this.setState({
+      isLoading: false,
+    });
   };
 
   // 显示添加工作面板
@@ -36,10 +62,17 @@ class Laoban extends Component {
       open: false,
     });
   };
+
   toDetail = (id) => {
     this.props.history.push(`/detail/${id}`);
   };
-
+  /**
+   * @description: 列表每一行的渲染
+   * @param {*} rowData
+   * @param {*} sectionID
+   * @param {*} rowID
+   * @return {*}
+   */
   row = (rowData, sectionID, rowID) => {
     console.log(rowData);
     return (
@@ -96,7 +129,7 @@ class Laoban extends Component {
     />
   );
   render() {
-    const { dataSource } = this.state;
+    const { dataSource, endReached } = this.state;
     const { workList } = this.props;
 
     return (
@@ -114,35 +147,41 @@ class Laoban extends Component {
           }}
         ></Drawer>
 
-        <ListView
-          ref={(el) => (this.lv = el)}
-          dataSource={dataSource.cloneWithRows(workList)}
-          // renderHeader={() => <span>header</span>}
-          renderFooter={() => (
-            <div style={{ padding: 30, textAlign: "center" }}>
-              {this.state.isLoading ? "Loading..." : "Loaded"}
-            </div>
-          )}
-          renderSectionHeader={this.header}
-          renderBodyComponent={this.body}
-          renderRow={this.row}
-          renderSeparator={this.separator}
-          style={{
-            height: document.documentElement.clientHeight,
-            overflow: "auto",
-          }}
-          pageSize={4}
-          onScroll={() => {
-            console.log("scroll");
-          }}
-          useBodyScroll={false}
-          scrollRenderAheadDistance={500}
-          // onEndReached={this.onEndReached}
-          onEndReachedThreshold={10}
-        />
+        <PullToRefresh>
+          <ListView
+            ref={(el) => (this.lv = el)}
+            dataSource={dataSource.cloneWithRows(workList)}
+            // renderHeader={() => <span>header</span>}
+            renderFooter={() => (
+              <div style={{ padding: 30, textAlign: "center" }}>
+                {this.state.isLoading
+                  ? "Loading..."
+                  : "-------我是有底线的-------"}
+              </div>
+            )}
+            renderSectionHeader={this.header}
+            renderBodyComponent={this.body}
+            renderRow={this.row}
+            renderSeparator={this.separator}
+            style={{
+              height: document.documentElement.clientHeight,
+              overflow: "auto",
+            }}
+            pageSize={4}
+            onScroll={() => {
+              console.log("scroll");
+            }}
+            useBodyScroll={false}
+            scrollRenderAheadDistance={500}
+            onEndReached={this.onEndReached}
+            onEndReachedThreshold={10}
+          />
+        </PullToRefresh>
       </div>
     );
   }
 }
 
-export default connect((state) => ({ workList: state.workList }))(Laoban);
+export default connect((state) => ({ workList: state.workList }), {
+  getWorkInfo,
+})(Laoban);
