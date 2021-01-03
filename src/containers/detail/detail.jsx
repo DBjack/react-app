@@ -15,7 +15,7 @@ class Detail extends Component {
 
   render() {
     const { id } = this.props.match.params;
-    const { workList } = this.props;
+    const { workList } = this.props.work;
 
     const workInfo = workList.find((work) => {
       return work._id === id;
@@ -94,4 +94,4 @@ class Detail extends Component {
   }
 }
 
-export default connect((state) => ({ workList: state.workList }))(Detail);
+export default connect((state) => ({ work: state.work }))(Detail);

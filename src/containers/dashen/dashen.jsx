@@ -54,6 +54,7 @@ class Dashen extends Component {
   toDetail = (id) => {
     this.props.history.push(`/detail/${id}`);
   };
+
   /**
    * @description: 列表每一行的渲染
    * @param {*} rowData
@@ -87,11 +88,11 @@ class Dashen extends Component {
       </div>
     );
   };
-  body = (props) => {
-    return <div className="am-list-body my-body">11212</div>;
-  };
   header = (props) => {
     return <div>推荐</div>;
+  };
+  body = (props) => {
+    return <div className="am-list-body my-body">11212</div>;
   };
   separator = (sectionID, rowID) => (
     <div

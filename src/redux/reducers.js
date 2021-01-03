@@ -33,13 +33,28 @@ function userList(state = [], action = []) {
     }
 }
 
+/**
+ * @description: 工作列表
+ * @param {*} state
+ * @param {*} action
+ * @return {*}
+ */
+let initWork = {
+    workList: [],
+    pagination: {}
+}
 
-function workList(state = [], action = []) {
+function work(state = initWork, action = []) {
     switch (action.type) {
         case RECEIVEWORK:
             return [...state, action.data]
         case RECEIVEWORKLIST:
-            return [...state, ...action.data.work]
+
+            const { data, pagination } = action.data
+            return {
+                workList: [...state.workList, ...data],
+                pagination
+            }
         default:
             return state
     }
@@ -97,7 +112,7 @@ function chatMsgList(state = initChat, action) {
 
 export default combineReducers({
     user,
-    workList,
+    work,
     userList,
     chatMsgList
 })

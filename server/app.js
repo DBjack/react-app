@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2020-11-09 21:57:09
- * @LastEditTime: 2020-12-29 22:47:35
- * @LastEditors: your name
+ * @LastEditTime: 2021-01-03 23:13:36
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \my-app\server\app.js
  */
@@ -64,7 +64,7 @@ app.all("*", function(req, res, next) {
 
 app.use('/', indexRouter);
 app.use('/user', usersRouter);
-app.use('/works', worksRouter);
+app.use('/work', worksRouter);
 app.use('/chat', chatRouter);
 
 // catch 404 and forward to error handler

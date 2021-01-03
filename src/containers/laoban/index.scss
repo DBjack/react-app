@@ -59,4 +59,10 @@
              }
          }
      }
+     .am-drawer {
+         top: -45px;
+     }
+     /deep/ .am-list-view-scrollview {
+         height: calc(100vh - 100px)!important;
+     }
  }

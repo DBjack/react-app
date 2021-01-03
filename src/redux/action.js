@@ -194,9 +194,9 @@ export function addWorkInfo(workinfo) {
 // 查找工作列表
 export function getWorkInfo(params) {
     return async(dispatch) => {
-        const { data, code, msg } = await getWork(params)
+        const { data, code, msg, pagination } = await getWork(params)
         if (code === 1000) {
-            dispatch(receiveWorkList(data))
+            dispatch(receiveWorkList({ data, pagination }))
         }
     }
 }

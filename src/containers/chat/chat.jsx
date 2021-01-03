@@ -13,7 +13,7 @@ import {
 import { sendMsg, updateRedMsg } from "../../redux/action";
 import { connect } from "react-redux";
 import Cookies from "js-cookie";
-import WorkerCard from "../../components/workerCard/workerCard";
+import Detail from "../detail/detail";
 import "./index.scss";
 class Chat extends Component {
   constructor(props) {
@@ -113,6 +113,7 @@ class Chat extends Component {
   };
 
   render() {
+    debugger;
     const toid = this.props.match.params.userid;
     const { userList, chatMsgList, user } = this.props;
     const { users, chatMsg } = chatMsgList;
@@ -132,9 +133,8 @@ class Chat extends Component {
           >
             聊天
           </NavBar>
-
-          <WorkerCard card={card}></WorkerCard>
         </div>
+        <Detail></Detail>
         <WhiteSpace></WhiteSpace>
         <div className="chat-body">
           {chatMsg.map((chat) => {

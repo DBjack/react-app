@@ -23,24 +23,31 @@ class Laoban extends Component {
     this.state = {
       open: false,
       dataSource: ds,
-      pageNum: 1,
       isLoading: true,
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.props.getWorkInfo({
-      pageNum: this.state.pageNum,
+      pageNum: 1,
     });
   }
 
   redirectDetail = (userid) => {
     this.props.history.push(`/detail/${userid}`);
   };
+
+  /**
+   * @description: 触顶刷新
+   * @param {*}
+   * @return {*}
+   */
   onEndReached = () => {
-    const { workList } = this.props;
-    if (workList.length === 10) {
-      let { pageNum } = this.state;
+    const { pagination, workList } = this.props.work;
+    let { pageNum, total } = pagination;
+
+    let isEnd = total - (pageNum - 1) * 10 > 9;
+    if (isEnd) {
       pageNum++;
       this.props.getWorkInfo({ pageNum });
       return;
@@ -48,6 +55,15 @@ class Laoban extends Component {
     this.setState({
       isLoading: false,
     });
+  };
+
+  /** 下拉刷新
+   * @description:
+   * @param {*}
+   * @return {*}
+   */
+  onRefresh = () => {
+    this.props.getWorkInfo({ pageNum: 1 });
   };
 
   // 显示添加工作面板
@@ -74,7 +90,6 @@ class Laoban extends Component {
    * @return {*}
    */
   row = (rowData, sectionID, rowID) => {
-    console.log(rowData);
     return (
       <div className="row" onClick={this.toDetail.bind(null, rowData._id)}>
         <div className="row-header">
@@ -130,7 +145,7 @@ class Laoban extends Component {
   );
   render() {
     const { dataSource, endReached } = this.state;
-    const { workList } = this.props;
+    const { workList } = this.props.work;
 
     return (
       <div className="work-list">
@@ -147,11 +162,10 @@ class Laoban extends Component {
           }}
         ></Drawer>
 
-        <PullToRefresh>
+        <PullToRefresh onRefresh={this.onRefresh}>
           <ListView
             ref={(el) => (this.lv = el)}
             dataSource={dataSource.cloneWithRows(workList)}
-            // renderHeader={() => <span>header</span>}
             renderFooter={() => (
               <div style={{ padding: 30, textAlign: "center" }}>
                 {this.state.isLoading
@@ -168,11 +182,11 @@ class Laoban extends Component {
               overflow: "auto",
             }}
             pageSize={4}
+            useBodyScroll={false}
+            scrollRenderAheadDistance={500}
             onScroll={() => {
               console.log("scroll");
             }}
-            useBodyScroll={false}
-            scrollRenderAheadDistance={500}
             onEndReached={this.onEndReached}
             onEndReachedThreshold={10}
           />
@@ -182,6 +196,6 @@ class Laoban extends Component {
   }
 }
 
-export default connect((state) => ({ workList: state.workList }), {
+export default connect((state) => ({ work: state.work }), {
   getWorkInfo,
 })(Laoban);
